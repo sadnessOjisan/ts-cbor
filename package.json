@@ -1,0 +1,27 @@
+{
+  "name": "ts-cbor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/sadnessOjisan/ts-cbor.git",
+  "author": "sadness_ojisan <sadness.ojisan@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "eslint": "^7.0.0",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "typecheck": "tsc -p . --noEmit",
+    "start": "ts-node src/main.ts",
+    "build": "tsc",
+    "format": "prettier --write '**/*.{ts,json}'",
+    "format:ci": "yarn prettier './src/**/*.{ts,json}' -- --check",
+    "lint": "eslint --fix 'src/**/*.{ts,json}'",
+    "lint:ci": "eslint 'src/**/*.{ts,json}'"
+  }
+}
