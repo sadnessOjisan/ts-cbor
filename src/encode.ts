@@ -59,11 +59,22 @@ export const encodeNumber = (input: number) => {
       }
       return result;
     } else if (input < 65536) {
-      return encodeToUint8(input | 24) && encodeToUint8(input);
-    } else if (input < 4294967295) {
-      // no op
+      const b = Buffer.allocUnsafe(3);
+      b.writeUInt8(m | 25, 0);
+      b.writeUInt16BE(input, 1);
+      return b;
+    } else if (input < 4294967296) {
+      const b = Buffer.allocUnsafe(5);
+      b.writeUInt8(m | 26, 0);
+      b.writeUInt32BE(input, 1);
+      return b;
     } else if (input < Number.MAX_SAFE_INTEGER) {
-      // no op
+      const SHIFT32 = 0x100000000;
+      const b = Buffer.allocUnsafe(9);
+      b.writeUInt8(m | 27, 0);
+      b.writeUInt32BE(Math.floor(input / SHIFT32), 1);
+      b.writeUInt32BE(input % SHIFT32, 5);
+      return b;
     }
   } else {
     // 符号あり
@@ -74,6 +85,12 @@ export const encodeNumber = (input: number) => {
 const encodeToUint8 = (num: number) => {
   const b = Buffer.allocUnsafe(1);
   b.writeUInt8(num, 0); // 8ビット符合無し整数を0オフセットで書き込む
+  return b;
+};
+
+export const encodeToUint16 = (num: number) => {
+  const b = Buffer.allocUnsafe(2);
+  b.writeUInt16BE(num, 0);
   return b;
 };
 
