@@ -94,27 +94,27 @@ export const encodeToUint16 = (num: number) => {
   return b;
 };
 
-const encodeBigint = (objs: any) => {
-  const encoded = "hogehoge";
-  return encoded;
-};
+// const encodeBigint = (objs: any) => {
+//   const encoded = "hogehoge";
+//   return encoded;
+// };
 
-const encodeString = (objs: any) => {
-  const encoded = "hogehoge";
-  return encoded;
-};
+// const encodeString = (objs: any) => {
+//   const encoded = "hogehoge";
+//   return encoded;
+// };
 
-const encodeBoolean = (objs: any) => {
-  const encoded = "hogehoge";
-  return encoded;
-};
+// const encodeBoolean = (objs: any) => {
+//   const encoded = "hogehoge";
+//   return encoded;
+// };
 
-const encodeUndefined = (objs: any) => {
-  const encoded = "hogehoge";
-  return encoded;
-};
+// const encodeUndefined = (objs: any) => {
+//   const encoded = "hogehoge";
+//   return encoded;
+// };
 
-const encodeObject = (objs: any) => {
-  const encoded = "hogehoge";
-  return encoded;
-};
+// const encodeObject = (objs: any) => {
+//   const encoded = "hogehoge";
+//   return encoded;
+// };
