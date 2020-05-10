@@ -2,6 +2,8 @@
 
 typed-cbor
 
+- https://tools.ietf.org/html/rfc7049
+- https://en.wikipedia.org/wiki/CBOR
 - https://hogehoge.tk/tool/number.html
 - http://cbor.me/?diag=%27g%27
 
