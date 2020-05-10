@@ -2,8 +2,8 @@
 
 typed-cbor
 
-https://hogehoge.tk/tool/number.html
-http://cbor.me/?diag=%27g%27
+- https://hogehoge.tk/tool/number.html
+- http://cbor.me/?diag=%27g%27
 
 ## dev
 
@@ -22,3 +22,12 @@ yarn covgen
 
 open coverage/lcov-report/index.html
 ```
+
+## todo
+
+- [ ] encoder
+  - [ ] number
+  - [ ] string
+  - [ ] object
+  - [ ] array
+- [ ] decoder

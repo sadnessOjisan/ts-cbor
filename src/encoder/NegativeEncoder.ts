@@ -5,8 +5,11 @@ import { mejorType } from "../const";
  * Major Typeは1
  */
 export class NegativeEncoder {
-  /** 8bitあるうちの先頭3bitにcategory typeを持ってくるため */
-  static m = mejorType.negativeInteger.type << 5;
+  /**
+   * 1byteで表現されるdata item headerの先頭3bit.
+   * 8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.
+   */
+  static shiftedMajorType = mejorType.negativeInteger.type << 5;
 
   /**
    * 負の数を正の数に変換して-1をする関数。
@@ -32,9 +35,9 @@ export class NegativeEncoder {
   static ai023encode(num: number) {
     if (!(num < 0 && num > -25)) throw new Error("invalid input error");
     const input = this.convertToPositableNumber(num);
-    const newInput = this.m | input; // major typeの後に続く5bitをくっつける
+    const dataItemHeader = this.shiftedMajorType | input; // major typeの後に続く5bitをくっつける
     const b = Buffer.allocUnsafe(1);
-    b.writeUInt8(newInput, 0);
+    b.writeUInt8(dataItemHeader, 0);
     return b;
   }
 
@@ -49,9 +52,9 @@ export class NegativeEncoder {
   static ai24encode(num: number) {
     if (!(num <= -25 && num > -256)) throw new Error("invalid input error");
     const input = this.convertToPositableNumber(num);
-    const shiftedInput = this.m | 24; // major typeに続くbitは24であるためビットシフト
+    const dataItemHeader = this.shiftedMajorType | 24; // major typeに続くbitは24であるためビットシフト
     const b = Buffer.allocUnsafe(2);
-    b.writeUInt8(shiftedInput, 0); // byte列の最初でmajor typeとadditional infoを指定
+    b.writeUInt8(dataItemHeader, 0); // byte列の最初でmajor typeとadditional infoを指定
     b.writeUInt8(input, 1); // 続くbyteに値を書き込む
     return b;
   }
@@ -65,9 +68,9 @@ export class NegativeEncoder {
   static ai25encode(num: number) {
     if (!(num <= -256 && num > -65536)) throw new Error("invalid input error");
     const input = this.convertToPositableNumber(num);
-    const shiftedInput = this.m | 25; // major typeに続くbitは25であるためビットシフト
+    const dataItemHeader = this.shiftedMajorType | 25; // major typeに続くbitは25であるためビットシフト
     const b = Buffer.allocUnsafe(3);
-    b.writeUInt8(shiftedInput, 0);
+    b.writeUInt8(dataItemHeader, 0);
     b.writeUInt16BE(input, 1);
     return b;
   }
@@ -82,9 +85,9 @@ export class NegativeEncoder {
     if (!(num <= -65536 && num > -4294967296))
       throw new Error("invalid input error");
     const input = this.convertToPositableNumber(num);
-    const shiftedInput = this.m | 26; // major typeに続くbitは26であるためビットシフト
+    const dataItemHeader = this.shiftedMajorType | 26; // major typeに続くbitは26であるためビットシフト
     const b = Buffer.allocUnsafe(5);
-    b.writeUInt8(shiftedInput, 0);
+    b.writeUInt8(dataItemHeader, 0);
     b.writeUInt32BE(input, 1);
     return b;
   }
@@ -99,9 +102,9 @@ export class NegativeEncoder {
     if (!(num <= -4294967297 && num >= -Number.MAX_SAFE_INTEGER))
       throw new Error("invalid input error");
     const input = this.convertToPositableNumber(num);
-    const shiftedInput = this.m | 27; // major typeに続くbitは27であるためビットシフト
+    const dataItemHeader = this.shiftedMajorType | 27; // major typeに続くbitは27であるためビットシフト
     const b = Buffer.allocUnsafe(9);
-    b.writeUInt8(shiftedInput, 0);
+    b.writeUInt8(dataItemHeader, 0);
     b.writeBigInt64BE(BigInt(input), 1);
     return b;
   }
