@@ -28,6 +28,7 @@
     "format:ci": "yarn prettier './src/**/*.{ts,json}' -- --check",
     "lint": "eslint --fix 'src/**/*.{ts,json}'",
     "lint:ci": "eslint 'src/**/*.{ts,json}'",
-    "docgen": "yarn typedoc"
+    "docgen": "yarn typedoc",
+    "covgen": "yarn jest  -- --coverage"
   }
 }

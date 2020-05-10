@@ -59,7 +59,6 @@ export const encodeNumber = (input: number) => {
     throw new Error("unreached");
   } else {
     // 符号あり
-    const newInput = -1 * input - 1;
     if (input > -24) {
       return NegativeEncoder.ai023encode(input);
     } else if (input > -256) {
@@ -68,7 +67,8 @@ export const encodeNumber = (input: number) => {
       return NegativeEncoder.ai25encode(input);
     } else if (input > -4294967296) {
       return NegativeEncoder.ai26encode(input);
-    } else if (newInput < Number.MAX_SAFE_INTEGER) {
+    } else if (input > -Number.MAX_SAFE_INTEGER) {
+      console.log("newI", input);
       return NegativeEncoder.ai27encode(input);
     }
     throw new Error("unreached");

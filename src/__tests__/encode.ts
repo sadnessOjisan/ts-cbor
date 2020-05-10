@@ -2,16 +2,24 @@ import { encodeNumber, encodeToUint16 } from "../encode";
 
 describe("encode", () => {
   describe("encodeNumber", () => {
+    it("should be 00 # unsigned(0), when input is 0", () => {
+      const expected = new Buffer([0]);
+      const actual = encodeNumber(0);
+      expect(actual).toEqual(expected);
+    });
     it("should be 01 # unsigned(1), when input is 1", () => {
-      const expected = Buffer.allocUnsafe(1); // FIXME: 下とくっつけるとnumberになるのなんで
-      expected.writeUInt8(1, 0);
+      const expected = new Buffer([1]);
       const actual = encodeNumber(1);
       expect(actual).toEqual(expected);
     });
     it("should be 17 # unsigned(23), when input is 23", () => {
-      const expected = Buffer.allocUnsafe(1);
-      expected.writeUInt8(23, 0);
+      const expected = new Buffer([23]);
       const actual = encodeNumber(23);
+      expect(actual).toEqual(expected);
+    });
+    it("should be 18 18 # unsigned(24), when input is 24", () => {
+      const expected = new Buffer([24, 24]);
+      const actual = encodeNumber(24);
       expect(actual).toEqual(expected);
     });
     it("should be 18 FF # unsigned(255), when input is 255", () => {
@@ -54,6 +62,11 @@ describe("encode", () => {
     it("should be 3A FFFFFFFE # negative(4294967295) when input is -4294967295", () => {
       const expected = new Buffer([58, 255, 255, 255, 254]);
       const actual = encodeNumber(-4294967295);
+      expect(actual).toEqual(expected);
+    });
+    it("should be 3B 001FFFFFFFFFFFFD # negative(9007199254740989), when input is -9007199254740990", () => {
+      const expected = new Buffer([59, 0, 31, 255, 255, 255, 255, 255, 253]); // means <Buffer 1b 00 1f ff ff ff ff ff fe>
+      const actual = encodeNumber(-9007199254740990);
       expect(actual).toEqual(expected);
     });
   });
