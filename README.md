@@ -26,7 +26,7 @@ open coverage/lcov-report/index.html
 ## todo
 
 - [ ] encoder
-  - [ ] number
+  - [x] number
   - [ ] string
   - [ ] object
   - [ ] array
