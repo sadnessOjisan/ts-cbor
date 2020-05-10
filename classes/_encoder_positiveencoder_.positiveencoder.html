@@ -72,7 +72,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>自然数のエンコード関数をまとめたクラス</p>
+						<p>自然数のエンコード関数をまとめたクラス.
+						Major Typeは0.</p>
 					</div>
 				</div>
 			</section>
@@ -89,6 +90,12 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_encoder_positiveencoder_.positiveencoder.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_encoder_positiveencoder_.positiveencoder.html#ai023encode" class="tsd-kind-icon">ai023encode</a></li>
@@ -98,6 +105,25 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_encoder_positiveencoder_.positiveencoder.html#ai27encode" class="tsd-kind-icon">ai27encode</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="shiftedmajortype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> shifted<wbr>Major<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">shifted<wbr>Major<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = mejorType.unsignedInteger.type &lt;&lt; 5</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L16">encoder/PositiveEncoder.ts:16</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>1byteで表現されるdata item headerの先頭3bit.
+							8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.</p>
+						</div>
 					</div>
 				</section>
 			</section>
@@ -113,13 +139,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/PositiveEncoder.ts#L10">encoder/PositiveEncoder.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L25">encoder/PositiveEncoder.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>additional informationが0-23の時の変換関数
-									そのままuint8_tで書き込む</p>
+									<p>encodeしたCBORのadditional informationが0-23になるように変換する.
+										major type0としたとき取りうるadditional informationに対応する数は23まで.
+									(ex) 000 00000 ~ 000 10111</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -127,10 +154,12 @@
 								<li>
 									<h5>num: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
+										<p>1 ~ 23の数</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<p>Buffer</p>
 						</li>
 					</ul>
 				</section>
@@ -144,13 +173,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/PositiveEncoder.ts#L21">encoder/PositiveEncoder.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L42">encoder/PositiveEncoder.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>additional informationが24の時の変換関数
-									uint8_tで書き込む</p>
+									<p>encodeしたCBORのadditional informationが24になるように変換する.
+										major type0としたとき取りうるadditional informationに対応する数は24まで.
+										(ex) 00011000 xxxxxxxx
+									先頭のbyteにデータ構造, 続くbyteにデータがuint8_tで書き込まれる。(合計で2byte)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -158,10 +189,12 @@
 								<li>
 									<h5>num: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
+										<p>24 ~ 255 の数</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<p>Buffer</p>
 						</li>
 					</ul>
 				</section>
@@ -175,13 +208,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/PositiveEncoder.ts#L33">encoder/PositiveEncoder.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L58">encoder/PositiveEncoder.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>additional informationが25の時の変換関数
-									uint16_tで書き込む</p>
+									<p>encodeしたCBORのadditional informationが25になるように変換する.
+										major type0としたとき取りうるadditional informationに対応する数は25まで.
+										(ex) 00011001 xxxxxxxx
+									先頭のbyteにデータ構造, 続くbyteにデータがuint16_tで書き込まれる。(合計で3byte)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -189,10 +224,12 @@
 								<li>
 									<h5>num: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
+										<p>256 ~ 65535 の数</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<p>Buffer</p>
 						</li>
 					</ul>
 				</section>
@@ -206,13 +243,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/PositiveEncoder.ts#L45">encoder/PositiveEncoder.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L74">encoder/PositiveEncoder.ts:74</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>additional informationが26の時の変換関数
-									uint32_tで書き込む</p>
+									<p>encodeしたCBORのadditional informationが26になるように変換する.
+										major type0としたとき取りうるadditional informationに対応する数は26まで.
+										(ex) 00011010 xxxxxxxx
+									先頭のbyteにデータ構造, 続くbyteにデータがuint32_tで書き込まれる。(合計で5byte)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -220,10 +259,12 @@
 								<li>
 									<h5>num: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
+										<p>65536 ~ 4294967295 の数</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<p>Buffer</p>
 						</li>
 					</ul>
 				</section>
@@ -237,13 +278,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/PositiveEncoder.ts#L57">encoder/PositiveEncoder.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/PositiveEncoder.ts#L90">encoder/PositiveEncoder.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>additional informationが27の時の変換関数
-									uint64_tで書き込む</p>
+									<p>encodeしたCBORのadditional informationが27になるように変換する.
+										major type0としたとき取りうるadditional informationに対応する数は27まで.
+										(ex) 00011011 xxxxxxxx
+									先頭のbyteにデータ構造, 続くbyteにデータがuint64_tで書き込まれる。(合計で9byte)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -251,10 +294,12 @@
 								<li>
 									<h5>num: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
+										<p>4294967296 ~ の数</p>
 									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<p>Buffer</p>
 						</li>
 					</ul>
 				</section>
@@ -287,6 +332,9 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_encoder_positiveencoder_.positiveencoder.html" class="tsd-kind-icon">Positive<wbr>Encoder</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_encoder_positiveencoder_.positiveencoder.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_encoder_positiveencoder_.positiveencoder.html#ai023encode" class="tsd-kind-icon">ai023encode</a>
 							</li>
@@ -320,10 +368,11 @@
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>

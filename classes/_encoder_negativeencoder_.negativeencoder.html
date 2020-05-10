@@ -92,7 +92,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_encoder_negativeencoder_.negativeencoder.html#m" class="tsd-kind-icon">m</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_encoder_negativeencoder_.negativeencoder.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -112,17 +112,18 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="m" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> m</h3>
-					<div class="tsd-signature tsd-kind-icon">m<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = mejorType.negativeInteger.type &lt;&lt; 5</span></div>
+					<a name="shiftedmajortype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> shifted<wbr>Major<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">shifted<wbr>Major<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = mejorType.negativeInteger.type &lt;&lt; 5</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L9">encoder/NegativeEncoder.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L12">encoder/NegativeEncoder.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>8bitあるうちの先頭3bitにcategory typeを持ってくるため</p>
+							<p>1byteで表現されるdata item headerの先頭3bit.
+							8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.</p>
 						</div>
 					</div>
 				</section>
@@ -139,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L32">encoder/NegativeEncoder.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L35">encoder/NegativeEncoder.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -173,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L49">encoder/NegativeEncoder.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L52">encoder/NegativeEncoder.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -208,7 +209,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L65">encoder/NegativeEncoder.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L68">encoder/NegativeEncoder.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,7 +241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L81">encoder/NegativeEncoder.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L84">encoder/NegativeEncoder.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -272,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L98">encoder/NegativeEncoder.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L101">encoder/NegativeEncoder.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/7a4db2e/src/encoder/NegativeEncoder.ts#L18">encoder/NegativeEncoder.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/ccaafcb/src/encoder/NegativeEncoder.ts#L21">encoder/NegativeEncoder.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,7 +359,7 @@
 						<a href="_encoder_negativeencoder_.negativeencoder.html" class="tsd-kind-icon">Negative<wbr>Encoder</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_encoder_negativeencoder_.negativeencoder.html#m" class="tsd-kind-icon">m</a>
+								<a href="_encoder_negativeencoder_.negativeencoder.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_encoder_negativeencoder_.negativeencoder.html#ai023encode" class="tsd-kind-icon">ai023encode</a>
