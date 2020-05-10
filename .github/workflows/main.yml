@@ -26,7 +26,7 @@ jobs:
         run: |
           yarn lint:ci
       - name: Build Doc
-        run: yarn typedoc
+        run: yarn docgen
       - name: Doc Deploy # 将来的にはprdだけに
         uses: peaceiris/actions-gh-pages@v3
         with:
