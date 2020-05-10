@@ -10,7 +10,7 @@ export const encode = (input: any) => {
 };
 
 /**
- *
+ * 型に応じたエンコードをする関数
  * @param obj
  */
 const encodeAny = (obj: any): Buffer => {
@@ -35,7 +35,7 @@ const encodeAny = (obj: any): Buffer => {
 };
 
 /**
- * 1もらうと01返すような関数
+ * 整数をエンコードする関数
  * @param input
  */
 export const encodeNumber = (input: number) => {
@@ -49,15 +49,10 @@ export const encodeNumber = (input: number) => {
       const encoded = encodeToUint8(input);
       return encoded;
     } else if (input < 256) {
-      const res = [encodeToUint8(m | 24), encodeToUint8(input)];
-      const result = Buffer.allocUnsafe(2);
-      let offset = 0;
-      for (let i = 0; i < res.length; i++) {
-        const buffer = res[i];
-        buffer.copy(result, offset, 0, buffer.length);
-        offset += buffer.length;
-      }
-      return result;
+      const b = Buffer.allocUnsafe(2);
+      b.writeUInt8(m | 24, 0);
+      b.writeUInt8(input, 1);
+      return b;
     } else if (input < 65536) {
       const b = Buffer.allocUnsafe(3);
       b.writeUInt8(m | 25, 0);
@@ -76,6 +71,7 @@ export const encodeNumber = (input: number) => {
       b.writeUInt32BE(input % SHIFT32, 5);
       return b;
     }
+    throw new Error("unreached");
   } else {
     // 符号あり
     const newInput = -1 * input - 1;
@@ -105,8 +101,8 @@ export const encodeNumber = (input: number) => {
       b.writeUInt32BE(newInput % SHIFT32, 5);
       return b;
     }
+    throw new Error("unreached");
   }
-  return Buffer.alloc(1);
 };
 
 const encodeToUint8 = (num: number) => {
