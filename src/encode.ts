@@ -2,11 +2,14 @@ import { mejorType } from "./const";
 
 /**
  * cbor形式に変換する関数
+ *
+ * TODO: 何形式で返すかは悩み中
  * @param input JSのデータ構造なんでも
  * @returns cbor形式
  */
 export const encode = (input: any) => {
-  return Uint8Array.from(encodeAny(input));
+  return encodeAny(input);
+  //   return Uint8Array.from(encodeAny(input));
 };
 
 /**
@@ -39,9 +42,6 @@ const encodeAny = (obj: any): Buffer => {
  * @param input
  */
 export const encodeNumber = (input: number) => {
-  const numberMajorType =
-    input > 0 ? mejorType.unsignedInteger.type : mejorType.negativeInteger.type;
-  const m = numberMajorType << 5;
   if (input >= 0) {
     // 符号なし
     if (input < 24) {
@@ -61,29 +61,15 @@ export const encodeNumber = (input: number) => {
     // 符号あり
     const newInput = -1 * input - 1;
     if (input > -24) {
-      return PositiveEncoder.ai023encode(m | newInput);
+      return NegativeEncoder.ai023encode(input);
     } else if (input > -256) {
-      const b = Buffer.allocUnsafe(2);
-      b.writeUInt8(m | 24, 0);
-      b.writeUInt8(newInput, 1);
-      return b;
+      return NegativeEncoder.ai24encode(input);
     } else if (input > -65536) {
-      const b = Buffer.allocUnsafe(3);
-      b.writeUInt8(m | 25, 0);
-      b.writeUInt16BE(newInput, 1);
-      return b;
+      return NegativeEncoder.ai25encode(input);
     } else if (input > -4294967296) {
-      const b = Buffer.allocUnsafe(5);
-      b.writeUInt8(m | 26, 0);
-      b.writeUInt32BE(newInput, 1);
-      return b;
+      return NegativeEncoder.ai26encode(input);
     } else if (newInput < Number.MAX_SAFE_INTEGER) {
-      const SHIFT32 = 0x100000000;
-      const b = Buffer.allocUnsafe(9);
-      b.writeUInt8(m | 27, 0);
-      b.writeUInt32BE(Math.floor(newInput / SHIFT32), 1);
-      b.writeUInt32BE(newInput % SHIFT32, 5);
-      return b;
+      return NegativeEncoder.ai27encode(input);
     }
     throw new Error("unreached");
   }
@@ -148,13 +134,86 @@ class PositiveEncoder {
 
   /**
    * additional informationが27の時の変換関数
-   * uint32_tで書き込む
+   * uint64_tで書き込む
    * @param num
    */
   static ai27encode(num: number) {
     const b = Buffer.allocUnsafe(9);
     b.writeUInt8(27, 0);
     b.writeBigInt64BE(BigInt(num), 1);
+    return b;
+  }
+}
+
+class NegativeEncoder {
+  static m = mejorType.negativeInteger.type << 5;
+
+  static convertToPositableNumber(num: number) {
+    return -1 * num - 1;
+  }
+
+  /**
+   * additional informationが0-23の時の変換関数
+   * そのままuint8_tで書き込む
+   * @param num
+   */
+  static ai023encode(num: number) {
+    const input = this.convertToPositableNumber(num);
+    const newInput = this.m | input;
+    const b = Buffer.allocUnsafe(1);
+    b.writeUInt8(newInput, 0); // 8ビット符合無し整数を0オフセットで書き込む
+    return b;
+  }
+
+  /**
+   * additional informationが24の時の変換関数
+   * uint8_tで書き込む
+   * @param num
+   */
+  static ai24encode(num: number) {
+    const input = this.convertToPositableNumber(num);
+    const b = Buffer.allocUnsafe(2);
+    b.writeUInt8(this.m | 24, 0);
+    b.writeUInt8(input, 1);
+    return b;
+  }
+
+  /**
+   * additional informationが25の時の変換関数
+   * uint16_tで書き込む
+   * @param num
+   */
+  static ai25encode(num: number) {
+    const input = this.convertToPositableNumber(num);
+    const b = Buffer.allocUnsafe(3);
+    b.writeUInt8(this.m | 25, 0);
+    b.writeUInt16BE(input, 1);
+    return b;
+  }
+
+  /**
+   * additional informationが26の時の変換関数
+   * uint32_tで書き込む
+   * @param num
+   */
+  static ai26encode(num: number) {
+    const input = this.convertToPositableNumber(num);
+    const b = Buffer.allocUnsafe(5);
+    b.writeUInt8(this.m | 26, 0);
+    b.writeUInt32BE(input, 1);
+    return b;
+  }
+
+  /**
+   * additional informationが27の時の変換関数
+   * uint64_tで書き込む
+   * @param num
+   */
+  static ai27encode(num: number) {
+    const input = this.convertToPositableNumber(num);
+    const b = Buffer.allocUnsafe(9);
+    b.writeUInt8(this.m | 27, 0);
+    b.writeBigInt64BE(BigInt(input), 1);
     return b;
   }
 }
