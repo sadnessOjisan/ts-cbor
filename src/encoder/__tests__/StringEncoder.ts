@@ -24,5 +24,15 @@ describe("StringEncoder", () => {
       );
       expect(actual).toEqual(expected);
     });
+    it("should be <Buffer 79 01 00 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 ... 209 more bytes>, when input is aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", () => {
+      const expected = new Buffer([121, 1, 0].concat(new Array(256).fill(97)));
+      const actual = StringEncoder.stringEncode("a");
+      expect(actual).toEqual(expected);
+    });
+    it("should be <Buffer 63 e3 81 82>, when input is a", () => {
+      const expected = new Buffer([99, 227, 129, 130]);
+      const actual = StringEncoder.stringEncode("あ");
+      expect(actual).toEqual(expected);
+    });
   });
 });

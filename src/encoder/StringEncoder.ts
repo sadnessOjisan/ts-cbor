@@ -49,6 +49,17 @@ export class StringEncoder {
       b.writeUInt16BE(byteLength, 1);
       b.write(str, 3);
       return b;
+    } else if (byteLength < 4294967296) {
+      const b = Buffer.allocUnsafe(byteLength + 4);
+      b.writeUInt8(this.shiftedMajorType | 26, 0);
+      b.writeUInt32BE(byteLength, 1);
+      b.write(str, 5);
+      return b;
+    } else if (byteLength < Number.MAX_SAFE_INTEGER) {
+      const b = Buffer.allocUnsafe(byteLength + 5);
+      b.writeUInt8(this.shiftedMajorType | 27, 0);
+      b.writeBigInt64BE(BigInt(byteLength), 1);
+      b.write(str, 9);
     }
   }
 }
