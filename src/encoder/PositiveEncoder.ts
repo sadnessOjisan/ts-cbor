@@ -2,7 +2,7 @@
  * @file 正数のエンコード. エンコードルールは https://tools.ietf.org/html/rfc7049#section-2.1 のMajor Type 0を参照.
  */
 
-import { mejorType } from "../const";
+import { majorType } from "../const";
 
 /**
  * 自然数のエンコード関数をまとめたクラス.
@@ -13,7 +13,7 @@ export class PositiveEncoder {
    * 1byteで表現されるdata item headerの先頭3bit.
    * 8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.
    */
-  static shiftedMajorType = mejorType.unsignedInteger.type << 5;
+  static shiftedMajorType = majorType.unsignedInteger.type << 5;
 
   /**
    * encodeしたCBORのadditional informationが0-23になるように変換する.

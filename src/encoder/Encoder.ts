@@ -1,5 +1,6 @@
 import { PositiveEncoder } from "./PositiveEncoder";
 import { NegativeEncoder } from "./NegativeEncoder";
+import { StringEncoder } from "./StringEncoder";
 
 /**
  * エンコーダー. JSのデータ構造をcbor形式に変換する
@@ -27,9 +28,9 @@ export class Encoder {
         return this.encodeNumber(obj);
       // case "bigint":
       //   return encodeBigint(obj);
-      // case "string":
-      //   // byte, string
-      //   return encodeString(obj);
+      case "string":
+        // byte, string
+        return this.encodeString(obj);
       // case "boolean":
       //   return encodeBoolean(obj);
       // case "undefined":
@@ -40,6 +41,11 @@ export class Encoder {
       default:
         throw new Error();
     }
+  }
+
+  static encodeString(input: string) {
+    // TODO: char型の対応と分岐をいれたい
+    return StringEncoder.stringEncode(input);
   }
 
   /**

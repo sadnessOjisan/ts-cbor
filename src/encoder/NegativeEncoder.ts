@@ -1,4 +1,4 @@
-import { mejorType } from "../const";
+import { majorType } from "../const";
 
 /**
  * 負数のエンコード関数をまとめたクラス.
@@ -9,7 +9,7 @@ export class NegativeEncoder {
    * 1byteで表現されるdata item headerの先頭3bit.
    * 8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.
    */
-  static shiftedMajorType = mejorType.negativeInteger.type << 5;
+  static shiftedMajorType = majorType.negativeInteger.type << 5;
 
   /**
    * 負の数を正の数に変換して-1をする関数。
