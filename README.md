@@ -1,6 +1,8 @@
 # ts-cbor
 
-typed-cbor
+a modern typed-cbor.
+
+Just for may RFC Reading training, dont use it in your production.
 
 - https://tools.ietf.org/html/rfc7049
 - https://en.wikipedia.org/wiki/CBOR
@@ -27,10 +29,10 @@ open coverage/lcov-report/index.html
 
 ## todo
 
-- [ ] encoder
+- [x] encoder
   - [x] number
   - [x] string
   - [x] primitive
-  - [ ] object
-  - [ ] array
+  - [x] object
+  - [x] array
 - [ ] decoder
