@@ -1,12 +1,12 @@
 /**
- * @file 文字列のエンコード. エンコードルールは https://tools.ietf.org/html/rfc7049#section-2.1 のMajor Type 0を参照.
+ * @file 文字列のエンコード. エンコードルールは https://tools.ietf.org/html/rfc7049#section-2.1 のMajor Type 3を参照.
  */
 
 import { majorType } from "../const";
 
 /**
  * 文字列のエンコード関数をまとめたクラス.
- * Major Typeは2.
+ * Major Typeは3.
  */
 export class StringEncoder {
   /**

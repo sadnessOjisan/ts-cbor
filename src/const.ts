@@ -1,11 +1,21 @@
+/**
+ * CBORが規程するmajor type
+ */
 type MAJOR_TYPE_IDENTIFIER_TYPE = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
+/**
+ * major type objectのkey
+ */
 type MAJOR_TYPE_NAME_TYPE =
   | "unsignedInteger"
   | "negativeInteger"
   | "byte"
-  | "text";
+  | "text"
+  | "primitive";
 
+/**
+ * major type objectの型
+ */
 type MAJOR_TYPE_TYPE = {
   [key in MAJOR_TYPE_NAME_TYPE]: {
     type: MAJOR_TYPE_IDENTIFIER_TYPE;
@@ -13,6 +23,9 @@ type MAJOR_TYPE_TYPE = {
   };
 };
 
+/**
+ * major type object
+ */
 export const majorType: MAJOR_TYPE_TYPE = {
   unsignedInteger: {
     type: 0,
@@ -30,4 +43,15 @@ export const majorType: MAJOR_TYPE_TYPE = {
     type: 3,
     description: "文字列",
   },
+  primitive: {
+    type: 7,
+    description: "文字列",
+  },
+};
+
+export const PRIMITIVE_TYPE = {
+  FALSE: 20,
+  TRUE: 21,
+  NULL: 22,
+  UNDEFINED: 23,
 };
