@@ -11,6 +11,7 @@ type MAJOR_TYPE_NAME_TYPE =
   | "negativeInteger"
   | "byte"
   | "text"
+  | "array"
   | "primitive";
 
 /**
@@ -43,9 +44,13 @@ export const majorType: MAJOR_TYPE_TYPE = {
     type: 3,
     description: "文字列",
   },
+  array: {
+    type: 4,
+    description: "配列",
+  },
   primitive: {
     type: 7,
-    description: "文字列",
+    description: "primitive(true/false/undefined/null)",
   },
 };
 
