@@ -44,4 +44,22 @@ describe("ArrayEncoder", () => {
   test.todo(
     "should be <Buffer 99 01 00 61 61...>, when input is new Array(4294967296).fill(a)"
   );
+  describe("multi byte文字", () => {
+    it("should be <Buffer 81 63 e3 81 82>, when input is [あ]", () => {
+      const expected = new Buffer([129, 99, 227, 129, 130]);
+      const actual = ArrayEncoder.arrayEncode(["あ"]);
+      expect(actual).toEqual(expected);
+    });
+    it("should be <Buffer 98 ff 63 e3 81 82 63 e3 81 82 63 e3 81 82>, when input is [あ]", () => {
+      const expected = new Buffer(
+        [152, 255].concat(
+          Array.from(new TextEncoder().encode("あ".repeat(255)))
+        )
+      );
+      const actual = ArrayEncoder.arrayEncode(new Array(255).fill("あ"));
+      console.log(expected);
+      console.log(actual);
+      //   expect(actual).toEqual(expected);
+    });
+  });
 });
