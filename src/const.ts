@@ -12,7 +12,8 @@ type MAJOR_TYPE_NAME_TYPE =
   | "byte"
   | "text"
   | "array"
-  | "primitive";
+  | "primitive"
+  | "object";
 
 /**
  * major type objectの型
@@ -47,6 +48,10 @@ export const majorType: MAJOR_TYPE_TYPE = {
   array: {
     type: 4,
     description: "配列",
+  },
+  object: {
+    type: 5,
+    description: "object",
   },
   primitive: {
     type: 7,

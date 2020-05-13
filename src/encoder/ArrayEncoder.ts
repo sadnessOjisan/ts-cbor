@@ -38,6 +38,7 @@ export class ArrayEncoder {
       for (const a of arr) {
         b = Buffer.concat([b, Encoder.encodeAny(a)]);
       }
+
       return b;
     } else if (length < 65536) {
       const dataItemHeader = this.shiftedMajorType | 25; // FIXME: magic number
@@ -67,5 +68,6 @@ export class ArrayEncoder {
       }
       return b;
     }
+    throw new Error("unreach");
   }
 }

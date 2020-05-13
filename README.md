@@ -1,11 +1,31 @@
 # ts-cbor
 
-typed-cbor
+a modern typed-cbor.
+
+Just for may training of RFC Reading, dont use it in your production.
 
 - https://tools.ietf.org/html/rfc7049
 - https://en.wikipedia.org/wiki/CBOR
 - https://hogehoge.tk/tool/number.html
 - http://cbor.me/?diag=%27g%27
+
+## how to use
+
+Setup
+
+```
+yarn install
+```
+
+Encode
+
+```
+yarn ts-node src/index.ts XXXXX
+```
+
+Decode
+
+TBD
 
 ## dev
 
@@ -27,10 +47,10 @@ open coverage/lcov-report/index.html
 
 ## todo
 
-- [ ] encoder
+- [x] encoder
   - [x] number
   - [x] string
   - [x] primitive
-  - [ ] object
-  - [ ] array
+  - [x] object
+  - [x] array
 - [ ] decoder

@@ -53,13 +53,11 @@ describe("ArrayEncoder", () => {
     it("should be <Buffer 98 ff 63 e3 81 82 63 e3 81 82 63 e3 81 82>, when input is [あ]", () => {
       const expected = new Buffer(
         [152, 255].concat(
-          Array.from(new TextEncoder().encode("あ".repeat(255)))
+          Array.from(new Array(255).fill([99, 227, 129, 130]).flat())
         )
       );
       const actual = ArrayEncoder.arrayEncode(new Array(255).fill("あ"));
-      console.log(expected);
-      console.log(actual);
-      //   expect(actual).toEqual(expected);
+      expect(actual).toEqual(expected);
     });
   });
 });
