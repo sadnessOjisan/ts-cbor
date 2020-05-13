@@ -9,6 +9,24 @@ Just for may RFC Reading training, dont use it in your production.
 - https://hogehoge.tk/tool/number.html
 - http://cbor.me/?diag=%27g%27
 
+## how to use
+
+Setup
+
+```
+yarn install
+```
+
+Encode
+
+```
+yarn ts-node src/index.ts XXXXX
+```
+
+Decode
+
+TBD
+
 ## dev
 
 documentaion
