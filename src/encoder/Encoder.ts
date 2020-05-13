@@ -39,7 +39,7 @@ export class Encoder {
         return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.UNDEFINED);
       case "object":
         // json, array, null
-        return this.encodePrimitive(obj);
+        return this.encodeObject(obj);
       default:
         throw new Error();
     }
@@ -58,11 +58,12 @@ export class Encoder {
     }
   }
 
-  static encodeObject(input: boolean) {
+  static encodeObject(input: any) {
     if (input === null) {
       return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.NULL);
     } else {
-      // no op
+      // FIXME: 仮置き
+      return new Buffer([]);
     }
   }
 
