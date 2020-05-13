@@ -15,6 +15,10 @@ export class PrimitiveEncoder {
    */
   static shiftedMajorType = majorType.primitive.type << 5;
 
+  /**
+   * primitiveのencodeを行う.
+   * @param num primitiveを表す数値
+   */
   static primitiveEncode(num: number) {
     const dataItemHeader = this.shiftedMajorType | num;
     const b = Buffer.allocUnsafe(1);
