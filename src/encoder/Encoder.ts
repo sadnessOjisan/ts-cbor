@@ -37,9 +37,9 @@ export class Encoder {
         return this.encodePrimitive(obj);
       case "undefined":
         return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.UNDEFINED);
-      // case "object":
-      //   // json, array, null
-      //   return encodeObject(obj);
+      case "object":
+        // json, array, null
+        return this.encodePrimitive(obj);
       default:
         throw new Error();
     }
@@ -55,6 +55,14 @@ export class Encoder {
       return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.TRUE);
     } else {
       return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.FALSE);
+    }
+  }
+
+  static encodeObject(input: boolean) {
+    if (input === null) {
+      return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.NULL);
+    } else {
+      // no op
     }
   }
 
