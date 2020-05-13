@@ -2,7 +2,7 @@
 
 a modern typed-cbor.
 
-Just for may RFC Reading training, dont use it in your production.
+Just for may training of RFC Reading, dont use it in your production.
 
 - https://tools.ietf.org/html/rfc7049
 - https://en.wikipedia.org/wiki/CBOR
