@@ -1,6 +1,8 @@
 import { PositiveEncoder } from "./PositiveEncoder";
 import { NegativeEncoder } from "./NegativeEncoder";
 import { StringEncoder } from "./StringEncoder";
+import { PrimitiveEncoder } from "./PrimitiveEncoder";
+import { PRIMITIVE_TYPE } from "../const";
 
 /**
  * エンコーダー. JSのデータ構造をcbor形式に変換する
@@ -31,10 +33,10 @@ export class Encoder {
       case "string":
         // byte, string
         return this.encodeString(obj);
-      // case "boolean":
-      //   return encodeBoolean(obj);
-      // case "undefined":
-      //   return encodeUndefined(obj);
+      case "boolean":
+        return this.encodePrimitive(obj);
+      case "undefined":
+        return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.UNDEFINED);
       // case "object":
       //   // json, array, null
       //   return encodeObject(obj);
@@ -46,6 +48,14 @@ export class Encoder {
   static encodeString(input: string) {
     // TODO: char型の対応と分岐をいれたい
     return StringEncoder.stringEncode(input);
+  }
+
+  static encodePrimitive(input: boolean) {
+    if (input === true) {
+      return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.TRUE);
+    } else {
+      return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.FALSE);
+    }
   }
 
   /**

@@ -4,7 +4,8 @@ type MAJOR_TYPE_NAME_TYPE =
   | "unsignedInteger"
   | "negativeInteger"
   | "byte"
-  | "text";
+  | "text"
+  | "primitive";
 
 type MAJOR_TYPE_TYPE = {
   [key in MAJOR_TYPE_NAME_TYPE]: {
@@ -30,4 +31,15 @@ export const majorType: MAJOR_TYPE_TYPE = {
     type: 3,
     description: "文字列",
   },
+  primitive: {
+    type: 7,
+    description: "文字列",
+  },
+};
+
+export const PRIMITIVE_TYPE = {
+  FALSE: 20,
+  TRUE: 21,
+  NULL: 22,
+  UNDEFINED: 23,
 };
