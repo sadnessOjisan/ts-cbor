@@ -36,7 +36,6 @@ export class ArrayEncoder {
       b.writeUInt8(dataItemHeader, 0); // FIXME: magic number
       b.writeUInt8(length, 1);
       for (const a of arr) {
-        console.log(Buffer.concat([b, Encoder.encodeAny(a)]));
         b = Buffer.concat([b, Encoder.encodeAny(a)]);
       }
 
@@ -69,5 +68,6 @@ export class ArrayEncoder {
       }
       return b;
     }
+    throw new Error("unreach");
   }
 }

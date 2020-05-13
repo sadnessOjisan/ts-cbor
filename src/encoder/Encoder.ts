@@ -3,6 +3,8 @@ import { NegativeEncoder } from "./NegativeEncoder";
 import { StringEncoder } from "./StringEncoder";
 import { PrimitiveEncoder } from "./PrimitiveEncoder";
 import { PRIMITIVE_TYPE } from "../const";
+import { ArrayEncoder } from "./ArrayEncoder";
+import { ObjectEndocer } from "./ObjectEncoder";
 
 /**
  * エンコーダー. JSのデータ構造をcbor形式に変換する
@@ -58,12 +60,13 @@ export class Encoder {
     }
   }
 
-  static encodeObject(input: any) {
+  static encodeObject(input: Object) {
     if (input === null) {
       return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.NULL);
+    } else if (Array.isArray(input)) {
+      return ArrayEncoder.arrayEncode(input);
     } else {
-      // FIXME: 仮置き
-      return new Buffer([]);
+      return ObjectEndocer.encodeObject(input);
     }
   }
 

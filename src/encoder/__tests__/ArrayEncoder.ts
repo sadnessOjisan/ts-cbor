@@ -57,9 +57,7 @@ describe("ArrayEncoder", () => {
         )
       );
       const actual = ArrayEncoder.arrayEncode(new Array(255).fill("あ"));
-      console.log(expected);
-      console.log(actual);
-      //   expect(actual).toEqual(expected);
+      expect(actual).toEqual(expected);
     });
   });
 });
