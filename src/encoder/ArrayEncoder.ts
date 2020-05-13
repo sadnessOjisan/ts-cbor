@@ -36,8 +36,10 @@ export class ArrayEncoder {
       b.writeUInt8(dataItemHeader, 0); // FIXME: magic number
       b.writeUInt8(length, 1);
       for (const a of arr) {
+        console.log(Buffer.concat([b, Encoder.encodeAny(a)]));
         b = Buffer.concat([b, Encoder.encodeAny(a)]);
       }
+
       return b;
     } else if (length < 65536) {
       const dataItemHeader = this.shiftedMajorType | 25; // FIXME: magic number
