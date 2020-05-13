@@ -29,7 +29,8 @@ open coverage/lcov-report/index.html
 
 - [ ] encoder
   - [x] number
-  - [ ] string
+  - [x] string
+  - [x] primitive
   - [ ] object
   - [ ] array
 - [ ] decoder
