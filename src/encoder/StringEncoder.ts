@@ -60,6 +60,8 @@ export class StringEncoder {
       b.writeUInt8(this.shiftedMajorType | 27, 0);
       b.writeBigInt64BE(BigInt(byteLength), 1);
       b.write(str, 9);
+      return b;
     }
+    throw new Error("unreach");
   }
 }
