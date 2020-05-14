@@ -3,4 +3,4 @@ import { Decoder } from "./decoder";
 
 // console.log(Encoder.encode(process.argv[2]));
 
-console.log(Decoder.decode("1A00010000"));
+console.log(Decoder.decode("390100"));
