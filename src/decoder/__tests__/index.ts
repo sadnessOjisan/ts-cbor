@@ -118,4 +118,45 @@ describe("Decoder", () => {
       });
     });
   });
+  describe("string decoder", () => {
+    describe("additional info 0 - 23", () => {
+      it("should be 'a', when input is 6161", () => {
+        const expected = "a";
+        const actual = Decoder.decode("6161");
+        expect(actual).toEqual(expected);
+      });
+      it("should be 'aaaaaaaaaaaaaaaaaaaaaaa', when input is 776161616161616161616161616161616161616161616161", () => {
+        const expected = "aaaaaaaaaaaaaaaaaaaaaaa";
+        const actual = Decoder.decode(
+          "776161616161616161616161616161616161616161616161"
+        );
+        expect(actual).toEqual(expected);
+      });
+    });
+    describe("additional info 24", () => {
+      it("should be 'aaaaaaaaaaaaaaaaaaaaaaaa', when input is 776161616161616161616161616161616161616161616161", () => {
+        const expected = "aaaaaaaaaaaaaaaaaaaaaaaa";
+        const actual = Decoder.decode(
+          "7818616161616161616161616161616161616161616161616161"
+        );
+        expect(actual).toEqual(expected);
+      });
+      it("should be 'a*255', when input is 78FFa*255", () => {
+        const expected = "a".repeat(255);
+        const actual = Decoder.decode(
+          `78FF` + new Array(255).fill("61").join("")
+        );
+        expect(actual).toEqual(expected);
+      });
+    });
+    describe("additional info 25", () => {
+      it("should be 'a*256', when input is 79010061616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161", () => {
+        const expected = "a".repeat(256);
+        const actual = Decoder.decode(
+          "790100" + new Array(256).fill("61").join("")
+        );
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
 });
