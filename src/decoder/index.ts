@@ -5,7 +5,7 @@
 import Stream from "stream";
 
 export class Decoder extends Stream.Transform {
-  static decode(input: string) {
+  static decode(input: string): any {
     const sb0xinput = parseInt(input, 16);
     const sbinput = sb0xinput.toString(2);
     const bitLength = sbinput.length;
@@ -14,6 +14,7 @@ export class Decoder extends Stream.Transform {
     const firstEated = this.eatString(input);
     const majorType = firstEated.target >> 5;
     const addedInfo = firstEated.target & 0b00011111;
+
     if (majorType === 0) {
       // 整数ケース
       return this.decodeNum(paddedBit);
@@ -26,28 +27,28 @@ export class Decoder extends Stream.Transform {
       if (addedInfo < 24) {
         let res = "";
         let eated = firstEated;
-        while (true) {
+        let cnt = addedInfo;
+        if (cnt === 0) {
+          return res;
+        }
+        while (cnt !== 0) {
+          console.log("[Decoder] <decode> eated", eated);
           if (eated.eated === "") {
-            break;
+            console.log("[Decoder] <decode> cnt", cnt);
+            throw new Error("token足りない");
           }
           eated = this.eatString(eated.eated);
           res += String.fromCharCode(eated.target);
+          cnt -= 1;
         }
         return res;
       } else {
         const needEat = addedInfo - 23;
-        console.log("[Decoder] <decode> needEat", needEat);
         let eated = firstEated;
-        console.log("[Decoder] <decode>A eated.eated", eated.eated);
         for (let i = 0; i < needEat; i++) {
-          console.log("[Decoder] <decode> i", i);
           eated = this.eatString(eated.eated);
-          console.log("[Decoder] <decode> eated.eated", eated.eated);
         }
-        console.log(
-          "[Decoder] <decode> eated.eated.length",
-          eated.eated.length
-        );
+
         // 1回eatしたら長さが手に入る
         let res = "";
         while (true) {
@@ -59,7 +60,58 @@ export class Decoder extends Stream.Transform {
         }
         return res;
       }
+    } else if (majorType === 4) {
+      console.log("[Decoder] <decode> firstEated", firstEated);
+      console.log("[Decoder] <decode> addedInfo", addedInfo);
+      if (addedInfo < 24) {
+        return this.decodeArray(firstEated);
+      } else {
+      }
+    } else if (majorType === 5) {
+      console.log("[Decoder] <decode> addedInfo", addedInfo);
     }
+  }
+
+  static decodeArray(firstEated: { target: number; eated: string }) {
+    const res = [];
+    let eated;
+    while (true) {
+      const token = this.takeToken(eated ? eated.eated : firstEated.eated);
+      console.log("[Decoder] <decodeArray> token", token);
+      eated = this.eatStringRaw(eated ? eated.eated : firstEated.eated);
+      res.push(this.decode(token));
+      if (eated.eated === "") {
+        break;
+      }
+    }
+    return res;
+  }
+
+  /**
+   * 文字列から一文字に値するものを切り出す
+   * @param input @example '6161'
+   * @return @example 6161
+   */
+  static takeToken(input: string) {
+    console.log("[Decoder] <takeToken> input", input);
+    const fistEated = this.eatStringRaw(input);
+    console.log("[Decoder] <takeToken> fistEated", fistEated);
+    let targetToken = fistEated.target;
+    while (true) {
+      try {
+        this.decode(targetToken);
+        return targetToken;
+      } catch {
+        const eated = this.eatStringRaw(input);
+        targetToken += eated.target;
+        if (eated.eated === "") {
+          break;
+        }
+        this.takeToken(fistEated.eated);
+      }
+      // TODO: 終了条件
+    }
+    return targetToken;
   }
 
   static eatString(input: string) {
@@ -68,6 +120,15 @@ export class Decoder extends Stream.Transform {
       return { target: parseInt(input.slice(0, 3), 16), eated: input.slice(3) };
     } else {
       return { target: parseInt(input.slice(0, 2), 16), eated: input.slice(2) };
+    }
+  }
+
+  static eatStringRaw(input: string) {
+    const dataHeaderItem = input.slice(0, 3);
+    if (parseInt(dataHeaderItem, 16) < 256 && dataHeaderItem[0] !== "0") {
+      return { target: input.slice(0, 3), eated: input.slice(3) };
+    } else {
+      return { target: input.slice(0, 2), eated: input.slice(2) };
     }
   }
 

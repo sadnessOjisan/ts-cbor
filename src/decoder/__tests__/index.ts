@@ -159,4 +159,52 @@ describe("Decoder", () => {
       });
     });
   });
+  describe("array decoder", () => {
+    describe("additional info 0 - 23", () => {
+      it("should be [1, 1], when input is 820101", () => {
+        const expected = [1, 1];
+        const actual = Decoder.decode("820101");
+        expect(actual).toEqual(expected);
+      });
+      it("should be [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], when input is 820101", () => {
+        const expected = new Array(23).fill(1);
+        const actual = Decoder.decode(
+          "970101010101010101010101010101010101010101010101"
+        );
+        expect(actual).toEqual(expected);
+      });
+      it('should be ["a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a",1,"a"]a, when input is 820101', () => {
+        const expected = [
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+          1,
+          "a",
+        ];
+        const actual = Decoder.decode(
+          "97616101616101616101616101616101616101616101616101616101616101616101616161"
+        );
+        // console.log(actual);
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
 });
