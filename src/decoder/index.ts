@@ -1,4 +1,4 @@
-import { trimFirstHexFromCBOR, hexToDateitemHeader, toCBOR } from "../helper";
+import { toCBOR } from "../helper";
 import { ArrayDecoder } from "./ArrayDecoder";
 import { PositiveNumberDecoder } from "./PositiveNumberDecoder";
 import { NegativeNumberDecoder } from "./NegativeNumberDecoder";
@@ -16,7 +16,7 @@ export class Decoder {
    * // a
    * @throws CBOR文字列ではないときに例外を投げる
    */
-  static decode(cborInputString: string) {
+  static decode(cborInputString: string): any {
     const cbor = toCBOR(cborInputString);
     const { majorType } = cbor;
     switch (majorType) {

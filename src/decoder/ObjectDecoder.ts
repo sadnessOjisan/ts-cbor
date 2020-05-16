@@ -1,11 +1,4 @@
-import {
-  CborType,
-  detectCborTypeFromBaseCbor,
-  separateTokenFromCBOR,
-  SeparatedCborType,
-  trimFirstHexFromCBOR,
-} from "../helper";
-import { Decoder } from "./old";
+import { CborType, detectCborTypeFromBaseCbor } from "../helper";
 
 export class ObjectDecoder {
   /**
@@ -35,38 +28,6 @@ export class ObjectDecoder {
         // 次のbyteに長さが入っている、その次のbyte以降にデータ
         // TODO: impl
         return result;
-    }
-  }
-
-  /**
-   * 渡されたtokenをJSのデータ構造に変換していく。
-   * もしそのtokenがCBORとして不適切であれば残りのCBOR文字列から1tokenを切り出してそれを連結した新しいtokenでdecodeする。
-   * @param cborString CBOR文字列
-   * @returns JSのデータ構造
-   */
-  static throwableDecode(cborString: string) {
-    const separatedCborObject = separateTokenFromCBOR(cborString);
-    try {
-      const targetToken = separatedCborObject.token;
-      const decoded = Decoder.decode(separatedCborObject.token);
-      const rest = cborString.slice(targetToken.length);
-      return {
-        decodeResult: decoded,
-        restCborString: rest,
-      };
-    } catch {
-      // CBOR文字列じゃないときに実行. さらにtokenを読み進める
-      if (!separatedCborObject.rest) {
-        throw new Error("これ以上CBOR文字列を読み込めない");
-      }
-      const nextToken = trimFirstHexFromCBOR(separatedCborObject.rest);
-      const tokenWithNextToken = separatedCborObject.token + nextToken;
-      const decoded = Decoder.decode(tokenWithNextToken);
-      const rest = cborString.slice(tokenWithNextToken.length);
-      return {
-        decodeResult: decoded,
-        restCborString: rest,
-      };
     }
   }
 }
