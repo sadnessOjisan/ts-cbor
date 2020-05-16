@@ -1,4 +1,8 @@
-import { CborType, detectCborTypeFromBaseCbor } from "../helper";
+import {
+  detectCborTypeFromBaseCbor,
+  BaseCborType,
+  throwableDecode,
+} from "../helper";
 
 export class ObjectDecoder {
   /**
@@ -7,7 +11,7 @@ export class ObjectDecoder {
    * @param cbor CBOR文字列.
    * @param dataItemHeader CBOR文字列の先頭1byte. major typeと追加情報が格納されている.
    */
-  static decode(cbor: CborType): Object {
+  static decode(cbor: BaseCborType): Object {
     const result = {};
     const definedToken = detectCborTypeFromBaseCbor(cbor);
     if (cbor.type === "tiny") {
@@ -17,9 +21,9 @@ export class ObjectDecoder {
       case "short":
         // additinal infoに長さが入っており、次のbyte以降にデータ
         for (let cnt = 0; cnt < definedToken.additionalInformation; cnt++) {
-          const firstResult = this.throwableDecode(cbor.raw);
+          const firstResult = throwableDecode(cbor.raw);
           const key = firstResult.decodeResult;
-          const secondResult = this.throwableDecode(firstResult.restCborString);
+          const secondResult = throwableDecode(firstResult.restCborString);
           const value = secondResult.decodeResult;
           result[key] = value;
         }

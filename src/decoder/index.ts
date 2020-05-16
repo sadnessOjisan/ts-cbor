@@ -28,7 +28,7 @@ export class Decoder {
         return NegativeNumberDecoder.decode(cbor);
       case 2:
         // Buffer
-        break;
+        throw new Error("first releaseではサポートしない");
       case 3:
         // 文字列
         return StringDecoder.decode(cbor);
@@ -40,9 +40,10 @@ export class Decoder {
         return ObjectDecoder.decode(cbor);
       case 6:
         // tag
-        break;
+        throw new Error("first releaseではサポートしない");
       case 7:
         // primitive(null, undefined, false, true)
+        throw new Error("first releaseではサポートしない");
         break;
       default:
         throw new Error("Invalid CBOR Input");

@@ -2,6 +2,7 @@ import {
   CborType,
   detectCborTypeFromBaseCbor,
   throwableDecode,
+  BaseCborType,
 } from "../helper";
 
 /**
@@ -15,7 +16,7 @@ export class ArrayDecoder {
    * ex) 820163E38182 = 82(array(2)) 01(1) 63(text(3byte)) E38182(あ) = [12, "あ"]
    * @param dataItemHeader CBOR文字列の先頭1byte. major typeと追加情報が格納されている.
    */
-  static decode(cbor: CborType): any[] {
+  static decode(cbor: BaseCborType): any[] {
     const result: any[] = [];
     const definedToken = detectCborTypeFromBaseCbor(cbor);
     if (cbor.type === "tiny") {

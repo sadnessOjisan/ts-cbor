@@ -1,8 +1,4 @@
-import {
-  separateTokenFromCBOR,
-  CborType,
-  detectCborTypeFromBaseCbor,
-} from "../helper";
+import { detectCborTypeFromBaseCbor, BaseCborType } from "../helper";
 
 /**
  * 文字列のdecoder
@@ -15,7 +11,7 @@ export class StringDecoder {
    * ex) aあ => 6461E38182 (64(string2文字) 61(a) E38182(あ))
    * @param dataItemHeader CBOR文字列の先頭1byte. major typeと追加情報が格納されている.
    */
-  static decode(cbor: CborType): string {
+  static decode(cbor: BaseCborType): string {
     const definedToken = detectCborTypeFromBaseCbor(cbor);
     switch (definedToken.type) {
       case "short":
@@ -29,12 +25,12 @@ export class StringDecoder {
   /**
    * cbor文字列のvalue部分を配列に分割する関数
    */
-  static cborValueToArray(cborValue: string): string[] {}
+  private static cborValueToArray(cborValue: string): string[] {}
 
   /**
    * cborのトークン配列をURIに変換する関数
    */
-  static cborTokenArrayToURI(cborTokenArray: string[]): string {
+  private static cborTokenArrayToURI(cborTokenArray: string[]): string {
     return decodeURIComponent(
       cborTokenArray.reduce((p, c) => {
         return p + "%" + c.toString(16), "";

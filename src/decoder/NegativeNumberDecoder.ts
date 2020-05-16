@@ -1,11 +1,11 @@
 import { PositiveNumberDecoder } from "./PositiveNumberDecoder";
-import { CborType } from "../helper";
+import { CborType, BaseCborType } from "../helper";
 
 /**
  * 負の数のdecoder
  */
 export class NegativeNumberDecoder {
-  static decode(cbor: CborType): number {
+  static decode(cbor: BaseCborType): number {
     return -1 * PositiveNumberDecoder.decode(cbor) - 1;
   }
 }

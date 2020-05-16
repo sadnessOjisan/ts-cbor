@@ -12,14 +12,19 @@ type SperatedFirstTokenCbor = {
  * @param input CBOR文字列
  * * 626161
  * * 01
+ * * 0
  * @returns SperatedFirstTokenCbor
+ * 00は00のまま返してもいい。00であってもparseされたら0として出力される。
  *
  * @example
  * const firstHex = trimFirstHexFromCBOR("626161")
- * // { token: 62, rest: 6161 }
+ * // { token: "62", rest: "6161" }
  *
  * const firstHex = trimFirstHexFromCBOR("01")
- * // { token: 01, rest: null }
+ * // { token: "01", rest: null }
+ *
+ * const firstHex = trimFirstHexFromCBOR("0")
+ * // { token: "0", rest: null }
  */
 export const separateTokenFromCBOR = (cbor: string): SperatedFirstTokenCbor => {
   const dataHeaderItem = cbor.slice(0, 3);
