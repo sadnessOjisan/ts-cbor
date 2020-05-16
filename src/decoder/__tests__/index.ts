@@ -1,4 +1,4 @@
-import { Decoder } from "../index";
+import { Decoder } from "../old";
 
 describe("Decoder", () => {
   describe("plus number decoder", () => {

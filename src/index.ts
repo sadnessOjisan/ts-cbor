@@ -1,5 +1,5 @@
 // import { Encoder } from "./encoder/Encoder";
-import { Decoder } from "./decoder";
+import { Decoder } from "./decoder/old";
 
 // console.log(Encoder.encode(process.argv[2]));
 
