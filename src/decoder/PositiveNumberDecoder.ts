@@ -4,6 +4,9 @@ import {
   trimFirstHexFromCBOR,
   separateTokenFromCBOR,
   SeparatedCborType,
+  CborType,
+  BaseCborType,
+  detectCborTypeFromBaseCbor,
 } from "../helper";
 
 /**
@@ -17,11 +20,15 @@ export class PositiveNumberDecoder {
    * @param dataItemHeader CBOR文字列の先頭1byte. major typeと追加情報が格納されている.
    * @returns 正の数
    */
-  static decode(cbor: string, dataItemHeader: DataItemHeader): number {
-    if (dataItemHeader.addedInfo < 24) {
-      return dataItemHeader.addedInfo;
+  static decode(cbor: BaseCborType): number {
+    const tinyCbor = detectCborTypeFromBaseCbor(cbor);
+    if (tinyCbor.type !== "tiny") {
+      throw new Error("tinyであるはず");
+    }
+    if (cbor.additionalInformation < 24) {
+      return cbor.additionalInformation;
     } else {
-      const separatedCborObject = separateTokenFromCBOR(cbor);
+      const separatedCborObject = separateTokenFromCBOR(cbor.raw);
       if (!separatedCborObject.rest) {
         throw new Error("読み込む対象が存在しない");
       }

@@ -3,11 +3,6 @@
  */
 export type MAJOR_TYPE_IDENTIFIER_TYPE = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-export type DataItemHeader = {
-  majorType: MAJOR_TYPE_IDENTIFIER_TYPE;
-  addedInfo: number;
-};
-
 export const majorTypeIdentifiers: MAJOR_TYPE_IDENTIFIER_TYPE[] = [
   0,
   1,

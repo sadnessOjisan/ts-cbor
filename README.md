@@ -8,6 +8,8 @@ Just for may training of RFC Reading, dont use it in your production.
 - https://en.wikipedia.org/wiki/CBOR
 - https://hogehoge.tk/tool/number.html
 - http://cbor.me/?diag=%27g%27
+- https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
+- http://ash.jp/code/unitbl21.htm
 
 ## how to use
 

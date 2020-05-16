@@ -1,17 +1,14 @@
-import {
-  MAJOR_TYPE_IDENTIFIER_TYPE,
-  majorTypeIdentifiers,
-  DataItemHeader,
-} from "../const";
-import { trimFirstHexFromCBOR, hexToDateitemHeader } from "../helper";
+import { trimFirstHexFromCBOR, hexToDateitemHeader, toCBOR } from "../helper";
 import { ArrayDecoder } from "./ArrayDecoder";
 import { PositiveNumberDecoder } from "./PositiveNumberDecoder";
 import { NegativeNumberDecoder } from "./NegativeNumberDecoder";
+import { StringDecoder } from "./StringDecoder";
+import { ObjectDecoder } from "./ObjectDecoder";
 
 export class Decoder {
   /**
    * CBOR列からJSのデータ構造に変換する関数
-   * @param cbor {string} cbor文字列
+   * @param cborInputString {string} cbor文字列
    * 6161
    * 01
    * @example
@@ -19,32 +16,28 @@ export class Decoder {
    * // a
    * @throws CBOR文字列ではないときに例外を投げる
    */
-  static decode(cbor: string) {
-    const firstHexAsString = trimFirstHexFromCBOR(cbor);
-    const firstHex = parseInt(firstHexAsString, 2);
-    const dataHeaderItem = hexToDateitemHeader(firstHex);
-    const { majorType } = dataHeaderItem;
+  static decode(cborInputString: string) {
+    const cbor = toCBOR(cborInputString);
+    const { majorType } = cbor;
     switch (majorType) {
       case 0:
         // 正の数
-        return PositiveNumberDecoder.decode(cbor, dataHeaderItem);
-        break;
+        return PositiveNumberDecoder.decode(cbor);
       case 1:
         // 負の数
-        return NegativeNumberDecoder.decode(cbor, dataHeaderItem);
+        return NegativeNumberDecoder.decode(cbor);
       case 2:
         // Buffer
         break;
       case 3:
         // 文字列
-        return NegativeNumberDecoder.decode();
-        break;
+        return StringDecoder.decode(cbor);
       case 4:
         // 配列
-        return ArrayDecoder.decode(cbor, dataHeaderItem);
+        return ArrayDecoder.decode(cbor);
       case 5:
         // オブジェクト
-        break;
+        return ObjectDecoder.decode(cbor);
       case 6:
         // tag
         break;

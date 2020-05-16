@@ -1,11 +1,11 @@
 import { PositiveNumberDecoder } from "./PositiveNumberDecoder";
-import { DataItemHeader } from "../const";
+import { CborType } from "../helper";
 
 /**
  * 負の数のdecoder
  */
 export class NegativeNumberDecoder {
-  static decode(cbor: string, dataItemHeader: DataItemHeader): number {
-    return -1 * PositiveNumberDecoder.decode(cbor, dataItemHeader) - 1;
+  static decode(cbor: CborType): number {
+    return -1 * PositiveNumberDecoder.decode(cbor) - 1;
   }
 }
