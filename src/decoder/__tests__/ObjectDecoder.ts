@@ -18,6 +18,13 @@ describe("ObjectDecoder", () => {
         const actual = ObjectDecoder.decode(input);
         expect(actual).toEqual({ a: [1, 2] });
       });
+      test("配列の中にオブジェクト. 入力が 82F7190100 の時、出力は [undefined, 256]", () => {
+        const input = toCBOR("A161618301F6190100");
+        const actual = ObjectDecoder.decode(input);
+        expect(actual).toEqual({
+          a: [1, null, 256],
+        });
+      });
       test("オブジェクトをネスト", () => {
         const input = toCBOR("A16161A1616101");
         const actual = ObjectDecoder.decode(input);
@@ -107,6 +114,31 @@ describe("ObjectDecoder", () => {
           bb0: 22,
           cc0: 23,
           0: 0,
+        });
+      });
+    });
+    describe("edge case", () => {
+      test("3重ネスト", () => {
+        const input = toCBOR("A16161A16162A161638163E38182");
+        const actual = ObjectDecoder.decode(input);
+        expect(actual).toEqual({ a: { b: { c: ["あ"] } } });
+      });
+      test("3重ネスト2", () => {
+        const input = toCBOR("A16161A16162A161638163E38182");
+        const actual = ObjectDecoder.decode(input);
+        expect(actual).toEqual({ a: { b: { c: ["あ"] } } });
+      });
+      test("debug", () => {
+        const input = toCBOR(
+          "A263E3818282F7F465E38182307AA161737878E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182E38182"
+        );
+        const actual = ObjectDecoder.decode(input);
+        expect(actual).toEqual({
+          あ: [undefined, false],
+          あ0z: {
+            s:
+              "ああああああああああああああああああああああああああああああああああああああああ",
+          },
         });
       });
     });

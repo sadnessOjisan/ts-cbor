@@ -398,6 +398,7 @@ type EatCborResutType = {
 export const isValidCborString = (cborString: string): boolean => {
   try {
     Decoder.decode(cborString);
+    console.info("<isValidCborString> SUCCESS! cborString", cborString);
     return true;
   } catch {
     return false;
@@ -411,16 +412,20 @@ export const isValidCborString = (cborString: string): boolean => {
  * @returns JSのデータ構造と、使いきれなかったtoken
  */
 export const throwableDecode = (cborString: string): EatCborResutType => {
+  console.log("<throwableDecode> 1 cborString", cborString);
   let stri = trimFirstHexFromCBOR(cborString);
   while (!isValidCborString(stri)) {
+    console.log("<throwableDecode> stri", stri);
     const nextToken = trimFirstHexFromCBOR(cborString.slice(stri.length));
     stri = cborString.slice(0, stri.length + nextToken.length);
     if (nextToken === "") {
-      break;
+      console.log("<throwableDecode>ERR cborString", cborString);
+      console.error("<throwableDecode> ERR! stri", stri);
+      throw new Error("stop");
     }
   }
-
   const rest = cborString.slice(stri.length);
+  console.log("<throwableDecode>rest", rest);
   return {
     decodeResult: Decoder.decode(stri),
     restCborString: rest === "" ? null : rest,

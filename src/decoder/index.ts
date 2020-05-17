@@ -19,6 +19,7 @@ export class Decoder {
    */
   static decode(cborInputString: string): any {
     const cbor = toCBOR(cborInputString);
+    // console.log("[Decoder]<decode> cbor", cbor);
     const { majorType } = cbor;
     switch (majorType) {
       case 0:
