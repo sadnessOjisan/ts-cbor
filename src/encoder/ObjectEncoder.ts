@@ -20,7 +20,7 @@ export class ObjectEndocer {
    * Objectのencodeを行う.
    * @param num Objectを表す数値
    */
-  static encodeObject(obj: Object) {
+  static encodeObject(obj: Record<string, any>) {
     const keyLength = Object.keys(obj).length;
     if (keyLength < 24) {
       const dataItemHeader = this.shiftedMajorType | keyLength;
@@ -28,7 +28,6 @@ export class ObjectEndocer {
       b.writeUInt8(dataItemHeader, 0); // FIXME: magic number
       Object.keys(obj).forEach((key: string) => {
         b = Buffer.concat([b, Encoder.encodeAny(key)]);
-        // @ts-ignore
         b = Buffer.concat([b, Encoder.encodeAny(obj[key])]);
       });
       return b;
@@ -39,7 +38,6 @@ export class ObjectEndocer {
       b.writeUInt8(keyLength, 1);
       Object.keys(obj).forEach((key: string) => {
         b = Buffer.concat([b, Encoder.encodeAny(key)]);
-        // @ts-ignore
         b = Buffer.concat([b, Encoder.encodeAny(obj[key])]);
       });
       return b;
@@ -50,7 +48,6 @@ export class ObjectEndocer {
       b.writeUInt16BE(keyLength, 1);
       Object.keys(obj).forEach((key: string) => {
         b = Buffer.concat([b, Encoder.encodeAny(key)]);
-        // @ts-ignore
         b = Buffer.concat([b, Encoder.encodeAny(obj[key])]);
       });
       return b;
@@ -61,7 +58,6 @@ export class ObjectEndocer {
       b.writeUInt32BE(keyLength, 1);
       Object.keys(obj).forEach((key: string) => {
         b = Buffer.concat([b, Encoder.encodeAny(key)]);
-        // @ts-ignore
         b = Buffer.concat([b, Encoder.encodeAny(obj[key])]);
       });
       return b;
@@ -72,7 +68,6 @@ export class ObjectEndocer {
       b.writeBigUInt64BE(BigInt(keyLength), 1);
       Object.keys(obj).forEach((key: string) => {
         b = Buffer.concat([b, Encoder.encodeAny(key)]);
-        // @ts-ignore
         b = Buffer.concat([b, Encoder.encodeAny(obj[key])]);
       });
       return b;

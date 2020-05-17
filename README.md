@@ -8,6 +8,8 @@ Just for may training of RFC Reading, dont use it in your production.
 - https://en.wikipedia.org/wiki/CBOR
 - https://hogehoge.tk/tool/number.html
 - http://cbor.me/?diag=%27g%27
+- https://ja.wikipedia.org/wiki/Unicode%E4%B8%80%E8%A6%A7_0000-0FFF
+- http://ash.jp/code/unitbl21.htm
 
 ## how to use
 
@@ -20,12 +22,16 @@ yarn install
 Encode
 
 ```
-yarn ts-node src/index.ts XXXXX
+$ yarn ts-node src/index.ts encode "[1, 2, 3]"
+<Buffer 69 5b 31 2c 20 32 2c 20 33 5d>
 ```
 
 Decode
 
-TBD
+```
+$ yarn ts-node src/index.ts decode "6161"
+a
+```
 
 ## dev
 
@@ -54,3 +60,8 @@ open coverage/lcov-report/index.html
   - [x] object
   - [x] array
 - [ ] decoder
+  - [x] number
+  - [x] string
+  - [ ] primitive
+  - [ ] object
+  - [ ] array

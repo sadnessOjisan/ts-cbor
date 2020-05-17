@@ -60,7 +60,7 @@ export class Encoder {
     }
   }
 
-  static encodeObject(input: Object) {
+  static encodeObject(input: Record<string, any>) {
     if (input === null) {
       return PrimitiveEncoder.primitiveEncode(PRIMITIVE_TYPE.NULL);
     } else if (Array.isArray(input)) {
