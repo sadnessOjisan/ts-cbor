@@ -4,6 +4,7 @@ import { PositiveNumberDecoder } from "./PositiveNumberDecoder";
 import { NegativeNumberDecoder } from "./NegativeNumberDecoder";
 import { StringDecoder } from "./StringDecoder";
 import { ObjectDecoder } from "./ObjectDecoder";
+import { PrimitiveDecoder } from "./PrimitiveDecoder";
 
 export class Decoder {
   /**
@@ -42,8 +43,7 @@ export class Decoder {
         // tag
         throw new Error("first releaseではサポートしない");
       case 7:
-        // primitive(null, undefined, false, true)
-        throw new Error("first releaseではサポートしない");
+        return PrimitiveDecoder.decode(cbor);
       default:
         throw new Error("Invalid CBOR Input");
     }
