@@ -202,7 +202,6 @@ describe("Decoder", () => {
         const actual = Decoder.decode(
           "97616101616101616101616101616101616101616101616101616101616101616101616161"
         );
-        // console.log(actual);
         expect(actual).toEqual(expected);
       });
     });

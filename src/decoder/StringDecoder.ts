@@ -18,13 +18,39 @@ export class StringDecoder {
    */
   static decode(cbor: BaseCborType): string {
     const definedToken = detectCborTypeFromBaseCbor(cbor);
-    console.log("<detectCborTypeFromBaseCbor> definedToken", definedToken);
     switch (definedToken.type) {
       case "short":
-      case "long":
         const cborTokenArray = this.cborValueToArray(definedToken.variable);
         const URI = this.cborTokenArrayToURI(cborTokenArray);
-        return decodeURIComponent(URI);
+        const decoded = decodeURIComponent(URI);
+        const decodedByteLength = encodeURIComponent(decoded).replace(
+          /%../g,
+          "x"
+        ).length;
+        if (decodedByteLength !== definedToken.additionalInformation) {
+          console.error("decodedByteLength", decodedByteLength);
+          console.error("cbor", cbor);
+          throw new Error("長さあってない");
+        }
+        return decoded;
+      case "long":
+        const cborTokenArray2 = this.cborValueToArray(definedToken.variable);
+        const URI2 = this.cborTokenArrayToURI(cborTokenArray2);
+        const decoded2 = decodeURIComponent(URI2);
+        const decodedByteLength2 = encodeURIComponent(decoded2).replace(
+          /%../g,
+          "x"
+        ).length;
+        if (decodedByteLength2 !== definedToken.payloadLength) {
+          console.error(
+            "definedToken.payloadLength",
+            definedToken.payloadLength
+          );
+          console.error("decodedByteLength2", decodedByteLength2);
+          console.error("definedToken", definedToken);
+          throw new Error("長さあってない");
+        }
+        return decoded2;
     }
     throw new Error("un reach");
   }

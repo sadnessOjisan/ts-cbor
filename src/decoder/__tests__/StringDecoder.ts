@@ -22,5 +22,14 @@ describe("StringDecoder", () => {
       const actual = StringDecoder.decode(input);
       expect(actual).toBe("あ".repeat(256));
     });
+    test("66E38182 の E38182　は「あ」だけど,66は2文字なのでエラー", () => {
+      const input = toCBOR("66E38182");
+      expect(() => StringDecoder.decode(input)).toThrowError();
+    });
+    test("66E38182E38182", () => {
+      const input = toCBOR("66E38182E38182");
+      const actual = StringDecoder.decode(input);
+      expect(actual).toBe("ああ");
+    });
   });
 });

@@ -28,24 +28,41 @@ export class ArrayDecoder {
         if (definedToken.additionalInformation > 23) {
           throw new Error("not tiny");
         }
+
+        if (definedToken.additionalInformation === 0) {
+          return [];
+        }
+
         let eating = null;
         while (true) {
-          const eatResult = throwableDecode(eating || definedToken.raw);
+          const cborString = eating || definedToken.variable;
+          console.log("<throwableDecode>cborString ", cborString);
+          const eatResult = throwableDecode(eating || definedToken.variable);
           eating = eatResult.restCborString;
+          console.log("<throwableDecode>eatResult ", eatResult);
           result.push(eatResult.decodeResult);
-          if (eating === null) {
+          if (eatResult.restCborString === null) {
+            break;
+          }
+        }
+
+        if (result.length !== definedToken.additionalInformation) {
+          throw new Error("additional informationと配列の数があってない");
+        }
+
+        return result;
+      case "long":
+        let eating2 = null;
+        while (true) {
+          const eatResult = throwableDecode(eating2 || definedToken.variable);
+          eating2 = eatResult.restCborString;
+          result.push(eatResult.decodeResult);
+          if (eatResult.restCborString === null) {
             break;
           }
         }
         return result;
-      case "long":
-        // 次のbyteに長さが入っている、その次のbyte以降にデータ
-        while (true) {
-          // TODO: 配列にdecoded結果を詰め込む
-          break;
-        }
-        return result;
     }
-    throw new Error("unreach");
+    throw new Error("un reach");
   }
 }

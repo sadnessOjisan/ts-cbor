@@ -275,6 +275,42 @@ export const detectCborTypeFromBaseCbor = (
           2,
           2 + (undefinedTypeCbor.additionalInformation - 23) * 2
         );
+        console.log(
+          "<detectCborTypeFromBaseCbor> lengthHexString",
+          lengthHexString
+        );
+        const length = parseInt(lengthHexString, 16);
+        console.log("<detectCborTypeFromBaseCbor> length", length);
+        const variable = undefinedTypeCbor.raw.slice(
+          2 + (undefinedTypeCbor.additionalInformation - 23) * 2
+        );
+        return ofLongField(
+          undefinedTypeCbor.raw,
+          undefinedTypeCbor.majorType,
+          undefinedTypeCbor.additionalInformation,
+          length,
+          variable
+        );
+      }
+    case 4: // 配列はtinyはありえない(wiki間違ってる)
+    case 5:
+      if (undefinedTypeCbor.additionalInformation < 24) {
+        const variable = undefinedTypeCbor.raw.slice(2);
+        if (variable === "") {
+          throw new Error("shortならvariableに絶対何かの値があるはず");
+        }
+        console.log("variable", variable);
+        return ofShortField(
+          undefinedTypeCbor.raw,
+          undefinedTypeCbor.majorType,
+          undefinedTypeCbor.additionalInformation,
+          variable
+        );
+      } else {
+        const lengthHexString = undefinedTypeCbor.raw.slice(
+          2,
+          2 + (undefinedTypeCbor.additionalInformation - 23) * 2
+        );
         const length = parseInt(
           lengthHexString,
           (undefinedTypeCbor.additionalInformation - 23) * 8
@@ -290,14 +326,6 @@ export const detectCborTypeFromBaseCbor = (
           variable
         );
       }
-    case 4: // 配列はtinyはありえない(wiki間違ってる)
-    case 5:
-      // TODO: 適切なCBORを返す
-      return ofTineCbor(
-        undefinedTypeCbor.raw,
-        undefinedTypeCbor.majorType,
-        undefinedTypeCbor.additionalInformation
-      );
     case 6:
       // TODO: 適切なCBORを返す
       return ofTineCbor(
@@ -361,7 +389,23 @@ type EatCborResutType = {
   /** デコードした結果 */
   decodeResult: any;
   /** その時点でのデコードでは不要だったCBOR文字列 */
-  restCborString: string;
+  restCborString: string | null;
+};
+
+/**
+ * 入力文字列がCBOR準拠かたしかめる
+ * @param cborString
+ */
+export const isValidCborString = (cborString: string): boolean => {
+  try {
+    console.log("<isValidCborString> cborString", cborString);
+    const debug = Decoder.decode(cborString);
+
+    console.log("<isValidCborString> debug", debug);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 /**
@@ -371,27 +415,19 @@ type EatCborResutType = {
  * @returns JSのデータ構造と、使いきれなかったtoken
  */
 export const throwableDecode = (cborString: string): EatCborResutType => {
-  const separatedCborObject = separateTokenFromCBOR(cborString);
-  try {
-    const targetToken = separatedCborObject.token;
-    const decoded = Decoder.decode(separatedCborObject.token);
-    const rest = cborString.slice(targetToken.length);
-    return {
-      decodeResult: decoded,
-      restCborString: rest,
-    };
-  } catch {
-    // CBOR文字列じゃないときに実行. さらにtokenを読み進める
-    if (!separatedCborObject.rest) {
-      throw new Error("これ以上CBOR文字列を読み込めない");
+  console.log("<throwableDecode>cborString", cborString);
+  let stri = trimFirstHexFromCBOR(cborString);
+  console.log("<throwableDecode>stri", stri);
+  while (!isValidCborString(stri)) {
+    const nextToken = trimFirstHexFromCBOR(cborString.slice(stri.length));
+    stri = cborString.slice(0, stri.length + nextToken.length);
+    if (nextToken === "") {
+      throw new Error("invalid");
     }
-    const nextToken = trimFirstHexFromCBOR(separatedCborObject.rest);
-    const tokenWithNextToken = separatedCborObject.token + nextToken;
-    const decoded = Decoder.decode(tokenWithNextToken);
-    const rest = cborString.slice(tokenWithNextToken.length);
-    return {
-      decodeResult: decoded,
-      restCborString: rest,
-    };
   }
+  const rest = cborString.slice(stri.length);
+  return {
+    decodeResult: Decoder.decode(stri),
+    restCborString: rest === "" ? null : rest,
+  };
 };

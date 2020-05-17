@@ -56,3 +56,8 @@ open coverage/lcov-report/index.html
   - [x] object
   - [x] array
 - [ ] decoder
+  - [x] number
+  - [x] string
+  - [ ] primitive
+  - [ ] object
+  - [ ] array

@@ -18,6 +18,7 @@ export class Decoder {
    */
   static decode(cborInputString: string): any {
     const cbor = toCBOR(cborInputString);
+    console.log("<decode> cbor", cbor);
     const { majorType } = cbor;
     switch (majorType) {
       case 0:
@@ -43,6 +44,7 @@ export class Decoder {
         throw new Error("first releaseではサポートしない");
       case 7:
         // primitive(null, undefined, false, true)
+        console.log("<decode>cbor", cbor);
         throw new Error("first releaseではサポートしない");
         break;
       default:

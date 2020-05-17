@@ -1,4 +1,10 @@
-import { separateTokenFromCBOR, toCBOR, hexToDateitemHeader } from "./helper";
+import {
+  separateTokenFromCBOR,
+  toCBOR,
+  hexToDateitemHeader,
+  throwableDecode,
+  isValidCborString,
+} from "./helper";
 
 describe("Helper", () => {
   describe("separateTokenFromCBOR", () => {
@@ -87,6 +93,25 @@ describe("Helper", () => {
     });
   });
   describe("throwableDecode", () => {
-    test.todo("hoge");
+    test("あ", () => {
+      const actual = throwableDecode("63E38182");
+      expect(actual).toEqual({
+        decodeResult: "あ",
+        restCborString: null,
+      });
+    });
+    test("ああ", () => {
+      const actual = throwableDecode("66E38182E38182");
+      expect(actual).toEqual({
+        decodeResult: "ああ",
+        restCborString: null,
+      });
+    });
+  });
+  describe("isValidCborString", () => {
+    test("82", () => {
+      const actual = isValidCborString("82");
+      expect(actual).toBe(false);
+    });
   });
 });
