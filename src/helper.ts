@@ -1,7 +1,7 @@
 import { MAJOR_TYPE_IDENTIFIER_TYPE, majorTypeIdentifiers } from "./const";
 import { Decoder } from "./decoder";
 
-type SperatedFirstTokenCbor = {
+export type SperatedFirstTokenCbor = {
   token: string;
   rest: string | null;
 };
@@ -262,12 +262,34 @@ export const detectCborTypeFromBaseCbor = (
     case 2:
     case 3:
       // 文字列
-      // TODO: 適切なCBORを返す
-      return ofTineCbor(
-        undefinedTypeCbor.raw,
-        undefinedTypeCbor.majorType,
-        undefinedTypeCbor.additionalInformation
-      );
+      if (undefinedTypeCbor.additionalInformation < 24) {
+        const variable = undefinedTypeCbor.raw.slice(2);
+        return ofShortField(
+          undefinedTypeCbor.raw,
+          undefinedTypeCbor.majorType,
+          undefinedTypeCbor.additionalInformation,
+          variable
+        );
+      } else {
+        const lengthHexString = undefinedTypeCbor.raw.slice(
+          2,
+          2 + (undefinedTypeCbor.additionalInformation - 23) * 2
+        );
+        const length = parseInt(
+          lengthHexString,
+          (undefinedTypeCbor.additionalInformation - 23) * 8
+        );
+        const variable = undefinedTypeCbor.raw.slice(
+          2 + (undefinedTypeCbor.additionalInformation - 23) * 2
+        );
+        return ofLongField(
+          undefinedTypeCbor.raw,
+          undefinedTypeCbor.majorType,
+          undefinedTypeCbor.additionalInformation,
+          length,
+          variable
+        );
+      }
     case 4: // 配列はtinyはありえない(wiki間違ってる)
     case 5:
       // TODO: 適切なCBORを返す

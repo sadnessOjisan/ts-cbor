@@ -1,4 +1,9 @@
-import { detectCborTypeFromBaseCbor, BaseCborType } from "../helper";
+import {
+  detectCborTypeFromBaseCbor,
+  BaseCborType,
+  SperatedFirstTokenCbor,
+  separateTokenFromCBOR,
+} from "../helper";
 
 /**
  * 文字列のdecoder
@@ -13,6 +18,7 @@ export class StringDecoder {
    */
   static decode(cbor: BaseCborType): string {
     const definedToken = detectCborTypeFromBaseCbor(cbor);
+    console.log("<detectCborTypeFromBaseCbor> definedToken", definedToken);
     switch (definedToken.type) {
       case "short":
       case "long":
@@ -24,17 +30,37 @@ export class StringDecoder {
   }
 
   /**
-   * cbor文字列のvalue部分を配列に分割する関数
+   * cbor文字列のvalue部分を配列に分割する関数.
+   * @param cborValue
+   * 入力文字列. E38182E38182E38182 などのように 0xE3 0x81 0x82 0xE3 0x81 0x82 と16進数表記の文字列が渡される
+   *
    */
   private static cborValueToArray(cborValue: string): string[] {
     // TODO:  Impl
-    return [""];
+    let res = [];
+    // @ts-ignore あとで初期化される
+    let trimed: SperatedFirstTokenCbor = {};
+    while (true) {
+      trimed = separateTokenFromCBOR(trimed.rest || cborValue);
+      res.push(trimed.token);
+      if (!trimed.rest) {
+        break;
+      }
+    }
+    return res;
   }
 
   /**
-   * cborのトークン配列をURIに変換する関数
+   * 16進数文字列の配列をURIに変換する関数
+   * @param hexStringArray 16進数文字列の配列
+   * ex) ["e3", "81", 82]
    */
-  private static cborTokenArrayToURI(cborTokenArray: string[]): string {
-    return "";
+  private static cborTokenArrayToURI(hexStringArray: string[]): string {
+    const uri =
+      "%" +
+      hexStringArray.reduce((acc, value) => {
+        return acc + "%" + value;
+      });
+    return uri;
   }
 }
