@@ -31,7 +31,7 @@ export class ArrayDecoder {
         let eating = null;
         while (true) {
           const eatResult = throwableDecode(eating || definedToken.raw);
-          eating = result.restCborString;
+          eating = eatResult.restCborString;
           result.push(eatResult.decodeResult);
           if (eating === null) {
             break;
@@ -42,8 +42,10 @@ export class ArrayDecoder {
         // 次のbyteに長さが入っている、その次のbyte以降にデータ
         while (true) {
           // TODO: 配列にdecoded結果を詰め込む
+          break;
         }
         return result;
     }
+    throw new Error("unreach");
   }
 }

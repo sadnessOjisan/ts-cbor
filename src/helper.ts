@@ -261,16 +261,35 @@ export const detectCborTypeFromBaseCbor = (
       }
     case 2:
     case 3:
-    // 文字列
+      // 文字列
+      // TODO: 適切なCBORを返す
+      return ofTineCbor(
+        undefinedTypeCbor.raw,
+        undefinedTypeCbor.majorType,
+        undefinedTypeCbor.additionalInformation
+      );
     case 4: // 配列はtinyはありえない(wiki間違ってる)
     case 5:
       // TODO: 適切なCBORを返す
-      return ofShortField();
+      return ofTineCbor(
+        undefinedTypeCbor.raw,
+        undefinedTypeCbor.majorType,
+        undefinedTypeCbor.additionalInformation
+      );
     case 6:
-      return ofShortField();
+      // TODO: 適切なCBORを返す
+      return ofTineCbor(
+        undefinedTypeCbor.raw,
+        undefinedTypeCbor.majorType,
+        undefinedTypeCbor.additionalInformation
+      );
     case 7:
       // TODO: 適切なCBORを返す
-      return ofTineCbor();
+      return ofTineCbor(
+        undefinedTypeCbor.raw,
+        undefinedTypeCbor.majorType,
+        undefinedTypeCbor.additionalInformation
+      );
     default:
       throw new Error("Invalid CBOR Input");
   }

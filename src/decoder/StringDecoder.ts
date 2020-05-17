@@ -20,21 +20,21 @@ export class StringDecoder {
         const URI = this.cborTokenArrayToURI(cborTokenArray);
         return decodeURIComponent(URI);
     }
+    throw new Error("un reach");
   }
 
   /**
    * cbor文字列のvalue部分を配列に分割する関数
    */
-  private static cborValueToArray(cborValue: string): string[] {}
+  private static cborValueToArray(cborValue: string): string[] {
+    // TODO:  Impl
+    return [""];
+  }
 
   /**
    * cborのトークン配列をURIに変換する関数
    */
   private static cborTokenArrayToURI(cborTokenArray: string[]): string {
-    return decodeURIComponent(
-      cborTokenArray.reduce((p, c) => {
-        return p + "%" + c.toString(16), "";
-      })
-    );
+    return "";
   }
 }

@@ -12,7 +12,7 @@ export class ObjectDecoder {
    * @param dataItemHeader CBOR文字列の先頭1byte. major typeと追加情報が格納されている.
    */
   static decode(cbor: BaseCborType): Object {
-    const result = {};
+    let result = {};
     const definedToken = detectCborTypeFromBaseCbor(cbor);
     if (cbor.type === "tiny") {
       throw new Error("オブジェクトはshort or long. wiki間違ってる");
@@ -25,7 +25,7 @@ export class ObjectDecoder {
           const key = firstResult.decodeResult;
           const secondResult = throwableDecode(firstResult.restCborString);
           const value = secondResult.decodeResult;
-          result[key] = value;
+          result = { ...result, [key]: value };
         }
         return result;
       case "long":
@@ -33,5 +33,6 @@ export class ObjectDecoder {
         // TODO: impl
         return result;
     }
+    throw new Error("unreach");
   }
 }
