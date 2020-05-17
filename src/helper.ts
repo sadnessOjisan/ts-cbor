@@ -299,7 +299,7 @@ export const detectCborTypeFromBaseCbor = (
         if (variable === "") {
           throw new Error("shortならvariableに絶対何かの値があるはず");
         }
-        console.log("variable", variable);
+        console.log("<detectCborTypeFromBaseCbor> variable", variable);
         return ofShortField(
           undefinedTypeCbor.raw,
           undefinedTypeCbor.majorType,
@@ -398,10 +398,7 @@ type EatCborResutType = {
  */
 export const isValidCborString = (cborString: string): boolean => {
   try {
-    console.log("<isValidCborString> cborString", cborString);
-    const debug = Decoder.decode(cborString);
-
-    console.log("<isValidCborString> debug", debug);
+    Decoder.decode(cborString);
     return true;
   } catch {
     return false;
@@ -415,9 +412,9 @@ export const isValidCborString = (cborString: string): boolean => {
  * @returns JSのデータ構造と、使いきれなかったtoken
  */
 export const throwableDecode = (cborString: string): EatCborResutType => {
-  console.log("<throwableDecode>cborString", cborString);
+  console.log("[ObjectDecoder]<decode> cborString", cborString);
+
   let stri = trimFirstHexFromCBOR(cborString);
-  console.log("<throwableDecode>stri", stri);
   while (!isValidCborString(stri)) {
     const nextToken = trimFirstHexFromCBOR(cborString.slice(stri.length));
     stri = cborString.slice(0, stri.length + nextToken.length);
@@ -425,7 +422,10 @@ export const throwableDecode = (cborString: string): EatCborResutType => {
       throw new Error("invalid");
     }
   }
+
   const rest = cborString.slice(stri.length);
+  console.log("[ObjectDecoder]<decode> stri", stri);
+  console.log("[ObjectDecoder]<decode> rest", rest);
   return {
     decodeResult: Decoder.decode(stri),
     restCborString: rest === "" ? null : rest,

@@ -29,7 +29,7 @@ export class StringDecoder {
         ).length;
         if (decodedByteLength !== definedToken.additionalInformation) {
           console.error("decodedByteLength", decodedByteLength);
-          console.error("cbor", cbor);
+          console.error("definedToken", definedToken);
           throw new Error("長さあってない");
         }
         return decoded;

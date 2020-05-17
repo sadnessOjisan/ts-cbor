@@ -35,8 +35,6 @@ export class ArrayDecoder {
 
         let eating = null;
         while (true) {
-          const cborString = eating || definedToken.variable;
-          console.log("<throwableDecode>cborString ", cborString);
           const eatResult = throwableDecode(eating || definedToken.variable);
           eating = eatResult.restCborString;
           console.log("<throwableDecode>eatResult ", eatResult);

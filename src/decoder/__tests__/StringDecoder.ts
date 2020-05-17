@@ -8,6 +8,11 @@ describe("StringDecoder", () => {
       const actual = StringDecoder.decode(input);
       expect(actual).toBe("a");
     });
+    test("英数混在", () => {
+      const input = toCBOR("63613062");
+      const actual = StringDecoder.decode(input);
+      expect(actual).toBe("a0b");
+    });
     test("24文字", () => {
       const input = toCBOR(
         "7818616161616161616161616161616161616161616161616161"
@@ -22,6 +27,7 @@ describe("StringDecoder", () => {
       const actual = StringDecoder.decode(input);
       expect(actual).toBe("あ".repeat(256));
     });
+
     test("66E38182 の E38182　は「あ」だけど,66は2文字なのでエラー", () => {
       const input = toCBOR("66E38182");
       expect(() => StringDecoder.decode(input)).toThrowError();

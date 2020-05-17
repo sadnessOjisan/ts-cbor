@@ -14,18 +14,29 @@ export class ObjectDecoder {
   static decode(cbor: BaseCborType): Object {
     let result = {};
     const definedToken = detectCborTypeFromBaseCbor(cbor);
+    console.log("[ObjectDecoder]<decode> definedToken", definedToken);
     if (cbor.type === "tiny") {
       throw new Error("オブジェクトはshort or long. wiki間違ってる");
     }
     switch (definedToken.type) {
       case "short":
         // additinal infoに長さが入っており、次のbyte以降にデータ
+        let eating = null;
         for (let cnt = 0; cnt < definedToken.additionalInformation; cnt++) {
-          const firstResult = throwableDecode(cbor.raw);
+          console.log("[ObjectDecoder]<decode> eating", eating);
+          const firstResult = throwableDecode(eating || definedToken.variable);
           const key = firstResult.decodeResult;
+          if (!firstResult.restCborString) {
+            throw new Error("オブジェクトなので絶対に後続があるはず");
+          }
           const secondResult = throwableDecode(firstResult.restCborString);
           const value = secondResult.decodeResult;
+          eating = secondResult.restCborString;
           result = { ...result, [key]: value };
+          console.log("[ObjectDecoder]<decode> secondResult", secondResult);
+        }
+        if (Object.keys(result).length !== definedToken.additionalInformation) {
+          throw new Error("key数とadditional infoの数があってない");
         }
         return result;
       case "long":
