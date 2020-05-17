@@ -39,16 +39,16 @@ export class ObjectDecoder {
       }
       case "long": {
         // payloadLengthに長さが入っている、それをvariableでまわす
-        let eating2 = null;
+        let eating = null;
         for (let cnt = 0; cnt < definedToken.payloadLength; cnt++) {
-          const firstResult = throwableDecode(eating2 || definedToken.variable);
+          const firstResult = throwableDecode(eating || definedToken.variable);
           const key = firstResult.decodeResult;
           if (!firstResult.restCborString) {
             throw new Error("オブジェクトなので絶対に後続があるはず");
           }
           const secondResult = throwableDecode(firstResult.restCborString);
           const value = secondResult.decodeResult;
-          eating2 = secondResult.restCborString;
+          eating = secondResult.restCborString;
           result = { ...result, [key]: value };
         }
         if (Object.keys(result).length !== definedToken.additionalInformation) {

@@ -41,10 +41,6 @@ export class StringDecoder {
           "x"
         ).length;
         if (decodedByteLength !== definedToken.payloadLength) {
-          console.error(
-            "definedToken.payloadLength",
-            definedToken.payloadLength
-          );
           throw new Error("長さあってない");
         }
         return decoded;

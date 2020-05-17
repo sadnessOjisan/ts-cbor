@@ -18,6 +18,7 @@ export class ArrayDecoder {
   static decode(cbor: BaseCborType): any[] {
     const result: any[] = [];
     const definedToken = detectCborTypeFromBaseCbor(cbor);
+
     if (cbor.type === "tiny") {
       throw new Error("配列はshort or long. wiki間違ってる");
     }
@@ -31,13 +32,13 @@ export class ArrayDecoder {
         if (definedToken.additionalInformation === 0) {
           return [];
         }
-
         let eating = null;
         for (;;) {
           const eatResult = throwableDecode(eating || definedToken.variable);
           eating = eatResult.restCborString;
           result.push(eatResult.decodeResult);
-          if (eatResult.restCborString === null) {
+          if (!eatResult.restCborString) {
+            // これ以上tokenがないなら抜ける
             break;
           }
         }

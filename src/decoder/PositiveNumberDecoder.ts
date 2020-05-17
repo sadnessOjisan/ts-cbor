@@ -1,4 +1,8 @@
-import { separateTokenFromCBOR, BaseCborType } from "../helper";
+import {
+  separateTokenFromCBOR,
+  BaseCborType,
+  detectCborTypeFromBaseCbor,
+} from "../helper";
 
 /**
  * 正の数のdecoder
@@ -12,10 +16,11 @@ export class PositiveNumberDecoder {
    * @returns 正の数
    */
   static decode(cbor: BaseCborType): number {
-    if (cbor.additionalInformation < 24) {
-      return cbor.additionalInformation;
+    const definedToken = detectCborTypeFromBaseCbor(cbor);
+    if (definedToken.additionalInformation < 24) {
+      return definedToken.additionalInformation;
     } else {
-      const separatedCborObject = separateTokenFromCBOR(cbor.raw);
+      const separatedCborObject = separateTokenFromCBOR(definedToken.raw);
       if (!separatedCborObject.rest) {
         throw new Error("読み込む対象が存在しない");
       }
