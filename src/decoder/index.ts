@@ -43,9 +43,7 @@ export class Decoder {
         throw new Error("first releaseではサポートしない");
       case 7:
         // primitive(null, undefined, false, true)
-        console.log("<decode>cbor", cbor);
         throw new Error("first releaseではサポートしない");
-        break;
       default:
         throw new Error("Invalid CBOR Input");
     }

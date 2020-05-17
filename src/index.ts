@@ -1,12 +1,18 @@
-// import { Encoder } from "./encoder/Encoder";
-import { Decoder } from "./decoder/old";
+import { Encoder } from "./encoder/Encoder";
+import { Decoder } from "./decoder";
 
-// console.log(Encoder.encode(process.argv[2]));
+type ModeType = "encode" | "decode";
 
-// console.log(
-//   Decoder.decode("7818616161616161616161616161616161616161616161616161")
-// );
+const mode = process.argv[2] as ModeType;
+const input = process.argv[3];
 
-// console.log(Decoder.decode("836161616161")); // [a, a, a]
-// console.log(Decoder.takeToken("61")); // error
-console.log(Decoder.takeToken("626161")); // 626161
+switch (mode) {
+  case "encode":
+    console.log(Encoder.encode(input));
+    break;
+  case "decode":
+    console.log(Decoder.decode(input));
+    break;
+  default:
+    console.error("unexpected mode. prease select encode or decode.");
+}
