@@ -1,8 +1,8 @@
 # ts-cbor
 
-a modern typed-cbor.
+a modern TypeScript based cbor decoder and parser.
 
-Just for may training of RFC Reading, dont use it in your production.
+Just for my training, dont use it in your app.
 
 - https://tools.ietf.org/html/rfc7049
 - https://en.wikipedia.org/wiki/CBOR
@@ -53,15 +53,25 @@ open coverage/lcov-report/index.html
 
 ## todo
 
-- [x] encoder
+### problem
+
+- performance is too bad..., many recursive. should use Stream. (mainly decoder)
+
+### progress
+
+- [ ] encoder
   - [x] number
   - [x] string
   - [x] primitive
   - [x] object
   - [x] array
+  - [ ] tag
+  - [ ] buffer
 - [ ] decoder
   - [x] number
   - [x] string
-  - [ ] primitive
-  - [ ] object
-  - [ ] array
+  - [x] primitive
+  - [x] object
+  - [x] array
+  - [ ] tag
+  - [ ] buffer
