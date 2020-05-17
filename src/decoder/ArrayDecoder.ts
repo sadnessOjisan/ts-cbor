@@ -1,5 +1,4 @@
 import {
-  CborType,
   detectCborTypeFromBaseCbor,
   throwableDecode,
   BaseCborType,
@@ -23,7 +22,7 @@ export class ArrayDecoder {
       throw new Error("配列はshort or long. wiki間違ってる");
     }
     switch (definedToken.type) {
-      case "short":
+      case "short": {
         // additinal infoに長さが入っており、次のbyte以降にデータ
         if (definedToken.additionalInformation > 23) {
           throw new Error("not tiny");
@@ -34,10 +33,9 @@ export class ArrayDecoder {
         }
 
         let eating = null;
-        while (true) {
+        for (;;) {
           const eatResult = throwableDecode(eating || definedToken.variable);
           eating = eatResult.restCborString;
-          console.log("<throwableDecode>eatResult ", eatResult);
           result.push(eatResult.decodeResult);
           if (eatResult.restCborString === null) {
             break;
@@ -49,9 +47,11 @@ export class ArrayDecoder {
         }
 
         return result;
-      case "long":
+      }
+
+      case "long": {
         let eating2 = null;
-        while (true) {
+        for (;;) {
           const eatResult = throwableDecode(eating2 || definedToken.variable);
           eating2 = eatResult.restCborString;
           result.push(eatResult.decodeResult);
@@ -60,6 +60,7 @@ export class ArrayDecoder {
           }
         }
         return result;
+      }
     }
     throw new Error("un reach");
   }

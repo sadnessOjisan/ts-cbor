@@ -275,12 +275,7 @@ export const detectCborTypeFromBaseCbor = (
           2,
           2 + (undefinedTypeCbor.additionalInformation - 23) * 2
         );
-        console.log(
-          "<detectCborTypeFromBaseCbor> lengthHexString",
-          lengthHexString
-        );
         const length = parseInt(lengthHexString, 16);
-        console.log("<detectCborTypeFromBaseCbor> length", length);
         const variable = undefinedTypeCbor.raw.slice(
           2 + (undefinedTypeCbor.additionalInformation - 23) * 2
         );
@@ -296,10 +291,11 @@ export const detectCborTypeFromBaseCbor = (
     case 5:
       if (undefinedTypeCbor.additionalInformation < 24) {
         const variable = undefinedTypeCbor.raw.slice(2);
-        if (variable === "") {
-          throw new Error("shortならvariableに絶対何かの値があるはず");
+        if (undefinedTypeCbor.additionalInformation > 0 && variable === "") {
+          throw new Error(
+            "空配列じゃない限り、shortならvariableに絶対何かの値があるはず"
+          );
         }
-        console.log("<detectCborTypeFromBaseCbor> variable", variable);
         return ofShortField(
           undefinedTypeCbor.raw,
           undefinedTypeCbor.majorType,

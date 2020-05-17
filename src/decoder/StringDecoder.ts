@@ -19,7 +19,7 @@ export class StringDecoder {
   static decode(cbor: BaseCborType): string {
     const definedToken = detectCborTypeFromBaseCbor(cbor);
     switch (definedToken.type) {
-      case "short":
+      case "short": {
         const cborTokenArray = this.cborValueToArray(definedToken.variable);
         const URI = this.cborTokenArrayToURI(cborTokenArray);
         const decoded = decodeURIComponent(URI);
@@ -31,22 +31,24 @@ export class StringDecoder {
           throw new Error("長さあってない");
         }
         return decoded;
-      case "long":
-        const cborTokenArray2 = this.cborValueToArray(definedToken.variable);
-        const URI2 = this.cborTokenArrayToURI(cborTokenArray2);
-        const decoded2 = decodeURIComponent(URI2);
-        const decodedByteLength2 = encodeURIComponent(decoded2).replace(
+      }
+      case "long": {
+        const cborTokenArray = this.cborValueToArray(definedToken.variable);
+        const URI = this.cborTokenArrayToURI(cborTokenArray);
+        const decoded = decodeURIComponent(URI);
+        const decodedByteLength = encodeURIComponent(decoded).replace(
           /%../g,
           "x"
         ).length;
-        if (decodedByteLength2 !== definedToken.payloadLength) {
+        if (decodedByteLength !== definedToken.payloadLength) {
           console.error(
             "definedToken.payloadLength",
             definedToken.payloadLength
           );
           throw new Error("長さあってない");
         }
-        return decoded2;
+        return decoded;
+      }
     }
     throw new Error("un reach");
   }
@@ -59,11 +61,12 @@ export class StringDecoder {
    */
   private static cborValueToArray(cborValue: string): string[] {
     // TODO:  Impl
-    let res = [];
-    // @ts-ignore あとで初期化される
-    let trimed: SperatedFirstTokenCbor = {};
-    while (true) {
-      trimed = separateTokenFromCBOR(trimed.rest || cborValue);
+    const res = [];
+    let trimed = null;
+    for (;;) {
+      trimed = separateTokenFromCBOR(
+        trimed ? trimed.rest || cborValue : cborValue
+      );
       res.push(trimed.token);
       if (!trimed.rest) {
         break;

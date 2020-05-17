@@ -20,7 +20,7 @@ export class ObjectEndocer {
    * Objectのencodeを行う.
    * @param num Objectを表す数値
    */
-  static encodeObject(obj: Object) {
+  static encodeObject(obj: Record<string, any>) {
     const keyLength = Object.keys(obj).length;
     if (keyLength < 24) {
       const dataItemHeader = this.shiftedMajorType | keyLength;

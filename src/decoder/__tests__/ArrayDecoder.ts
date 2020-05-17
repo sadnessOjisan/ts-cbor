@@ -31,7 +31,6 @@ describe("ArrayDecoder", () => {
     describe("マルチバイト", () => {
       test("長さが256", () => {
         const input = toCBOR("990100" + "63E38182".repeat(256));
-        console.log("input", input);
         const actual = ArrayDecoder.decode(input);
         expect(actual).toEqual(new Array(256).fill("あ"));
       });
@@ -40,7 +39,6 @@ describe("ArrayDecoder", () => {
       test("[1,[2,3]]", () => {
         const input = toCBOR("8201820203");
         const actual = ArrayDecoder.decode(input);
-        console.log("actual", actual);
         expect(actual).toEqual([1, [2, 3]]);
       });
     });
