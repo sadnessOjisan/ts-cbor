@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ObjectEndocer | ts-cbor</title>
+	<title>PrimitiveDecoder | ts-cbor</title>
 	<meta name="description" content="Documentation for ts-cbor">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_encoder_objectencoder_.html">&quot;encoder/ObjectEncoder&quot;</a>
+					<a href="../modules/_decoder_primitivedecoder_.html">&quot;decoder/PrimitiveDecoder&quot;</a>
 				</li>
 				<li>
-					<a href="_encoder_objectencoder_.objectendocer.html">ObjectEndocer</a>
+					<a href="_decoder_primitivedecoder_.primitivedecoder.html">PrimitiveDecoder</a>
 				</li>
 			</ul>
-			<h1>Class ObjectEndocer</h1>
+			<h1>Class PrimitiveDecoder</h1>
 		</div>
 	</div>
 </header>
@@ -72,8 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>配列のエンコード関数をまとめたクラス.
-						Major Typeは4.</p>
+						<p>正の数のdecoder</p>
 					</div>
 				</div>
 			</section>
@@ -81,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ObjectEndocer</span>
+						<span class="target">PrimitiveDecoder</span>
 					</li>
 				</ul>
 			</section>
@@ -90,66 +89,45 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_encoder_objectencoder_.objectendocer.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_encoder_objectencoder_.objectendocer.html#encodeobject" class="tsd-kind-icon">encode<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_decoder_primitivedecoder_.primitivedecoder.html#decode" class="tsd-kind-icon">decode</a></li>
 							</ul>
 						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
-					<a name="shiftedmajortype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> shifted<wbr>Major<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">shifted<wbr>Major<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = majorType.object.type &lt;&lt; 5</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/760cadd/src/encoder/ObjectEncoder.ts#L17">encoder/ObjectEncoder.ts:17</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>1byteで表現されるdata item headerの先頭3bit.
-							8bitあるうちの先頭3bitにcategory typeを持ってきたいのでmajor typeを5bitシフトさせる.</p>
-						</div>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="encodeobject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> encode<wbr>Object</h3>
+					<a name="decode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> decode</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">encode<wbr>Object<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span></li>
+						<li class="tsd-signature tsd-kind-icon">decode<span class="tsd-signature-symbol">(</span>cbor<span class="tsd-signature-symbol">: </span><a href="../modules/_helper_.html#basecbortype" class="tsd-signature-type">BaseCborType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/760cadd/src/encoder/ObjectEncoder.ts#L23">encoder/ObjectEncoder.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/sadnessOjisan/ts-cbor/blob/760cadd/src/decoder/PrimitiveDecoder.ts#L14">decoder/PrimitiveDecoder.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Objectのencodeを行う.</p>
+									<p>正の数であることが保証されたCBOR文字列からnumberを作る関数.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>obj: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>cbor: <a href="../modules/_helper_.html#basecbortype" class="tsd-signature-type">BaseCborType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>CBOR文字列.</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<p>正の数</p>
 						</li>
 					</ul>
 				</section>
@@ -162,7 +140,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_encoder_objectencoder_.html">&quot;encoder/<wbr>Object<wbr>Encoder&quot;</a>
+						<a href="../modules/_decoder_primitivedecoder_.html">&quot;decoder/<wbr>Primitive<wbr>Decoder&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -171,13 +149,10 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_encoder_objectencoder_.objectendocer.html" class="tsd-kind-icon">Object<wbr>Endocer</a>
+						<a href="_decoder_primitivedecoder_.primitivedecoder.html" class="tsd-kind-icon">Primitive<wbr>Decoder</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
-								<a href="_encoder_objectencoder_.objectendocer.html#shiftedmajortype" class="tsd-kind-icon">shifted<wbr>Major<wbr>Type</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_encoder_objectencoder_.objectendocer.html#encodeobject" class="tsd-kind-icon">encode<wbr>Object</a>
+								<a href="_decoder_primitivedecoder_.primitivedecoder.html#decode" class="tsd-kind-icon">decode</a>
 							</li>
 						</ul>
 					</li>
@@ -199,11 +174,10 @@
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
