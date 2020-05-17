@@ -32,12 +32,12 @@ export const separateTokenFromCBOR = (cbor: string): SperatedFirstTokenCbor => {
   if (parseInt(dataHeaderItem, 16) < 256 && dataHeaderItem[0] !== "0") {
     return {
       token: cbor.slice(0, 3),
-      rest: cbor.slice(3) === "" ? cbor.slice(3) : null,
+      rest: cbor.slice(3) !== "" ? cbor.slice(3) : null,
     };
   } else {
     return {
       token: cbor.slice(0, 2),
-      rest: cbor.slice(2) === "" ? cbor.slice(2) : null,
+      rest: cbor.slice(2) !== "" ? cbor.slice(2) : null,
     };
   }
 };
@@ -299,11 +299,14 @@ export const detectCborTypeFromBaseCbor = (
 export type CborType = TinyCborType | ShortCborType | LongCborType;
 
 /**
- * 16進数をdataItemHeaderに分解する。
+ * 1byte(0-255)をdataItemHeaderに分解する。
  * @param input castすると16進数で表現できる文字列
  * @returns DataItemHeader
  */
 export const hexToDateitemHeader = (input: number): DataItemHeader => {
+  if (input < 0 || input > 255) {
+    throw new Error("un expected input");
+  }
   const majorType = (input >> 5) as MAJOR_TYPE_IDENTIFIER_TYPE;
   const additionalInformation = input & 0b00011111;
   if (!majorTypeIdentifiers.includes(majorType)) {
@@ -323,7 +326,7 @@ export const hexToDateitemHeader = (input: number): DataItemHeader => {
  */
 export const toCBOR = (cborInput: string): BaseCborType => {
   const firstHexAsString = trimFirstHexFromCBOR(cborInput);
-  const firstHex = parseInt(firstHexAsString, 2);
+  const firstHex = parseInt(firstHexAsString, 16);
   const dataHeaderItem = hexToDateitemHeader(firstHex);
   const { majorType, additionalInformation } = dataHeaderItem;
   return ofBaseCbor(cborInput, majorType, additionalInformation);

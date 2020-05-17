@@ -1,8 +1,4 @@
-import {
-  separateTokenFromCBOR,
-  BaseCborType,
-  detectCborTypeFromBaseCbor,
-} from "../helper";
+import { separateTokenFromCBOR, BaseCborType } from "../helper";
 
 /**
  * 正の数のdecoder
@@ -16,10 +12,6 @@ export class PositiveNumberDecoder {
    * @returns 正の数
    */
   static decode(cbor: BaseCborType): number {
-    const tinyCbor = detectCborTypeFromBaseCbor(cbor);
-    if (tinyCbor.type !== "tiny") {
-      throw new Error("tinyであるはず");
-    }
     if (cbor.additionalInformation < 24) {
       return cbor.additionalInformation;
     } else {
