@@ -21,6 +21,11 @@ describe("PositiveNumberDecoder", () => {
         const actual = PositiveNumberDecoder.decode(input);
         expect(actual).toBe(24);
       });
+      test("入力が190100の時、出力は256", () => {
+        const input = toCBOR("190100");
+        const actual = PositiveNumberDecoder.decode(input);
+        expect(actual).toBe(256);
+      });
     });
     describe("巨大な数字へのdecode", () => {
       test("入力が 1B001FFFFFFFFFFFFF の時、出力は 9007199254740991", () => {

@@ -43,4 +43,11 @@ describe("ArrayDecoder", () => {
       });
     });
   });
+  describe("エッジケース", () => {
+    test("入力が 82F7190100 の時、出力は [undefined, 256]", () => {
+      const input = toCBOR("82F7190100");
+      const actual = ArrayDecoder.decode(input);
+      expect(actual).toEqual([undefined, 256]);
+    });
+  });
 });

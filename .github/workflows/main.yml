@@ -25,6 +25,9 @@ jobs:
       - name: yarn lint
         run: |
           yarn lint:ci
+      - name: test
+        run: |
+          yarn jest
       - name: Build Doc
         run: yarn docgen
       - name: Doc Deploy # 将来的にはprdだけに

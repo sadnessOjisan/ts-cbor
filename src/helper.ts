@@ -252,6 +252,12 @@ export const detectCborTypeFromBaseCbor = (
             "additional infoが24以上なら2byte目以降にもデータがある"
           );
         }
+        if (
+          undefinedTypeCbor.raw.length - 2 !==
+          2 ** (undefinedTypeCbor.additionalInformation - 23)
+        ) {
+          throw new Error("バイト列の長さが足りていない。");
+        }
         return ofShortField(
           undefinedTypeCbor.raw,
           undefinedTypeCbor.majorType,
@@ -410,7 +416,7 @@ export const throwableDecode = (cborString: string): EatCborResutType => {
     const nextToken = trimFirstHexFromCBOR(cborString.slice(stri.length));
     stri = cborString.slice(0, stri.length + nextToken.length);
     if (nextToken === "") {
-      throw new Error("invalid");
+      break;
     }
   }
 
