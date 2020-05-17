@@ -311,10 +311,7 @@ export const detectCborTypeFromBaseCbor = (
           2,
           2 + (undefinedTypeCbor.additionalInformation - 23) * 2
         );
-        const length = parseInt(
-          lengthHexString,
-          (undefinedTypeCbor.additionalInformation - 23) * 8
-        );
+        const length = parseInt(lengthHexString, 16);
         const variable = undefinedTypeCbor.raw.slice(
           2 + (undefinedTypeCbor.additionalInformation - 23) * 2
         );
@@ -412,8 +409,6 @@ export const isValidCborString = (cborString: string): boolean => {
  * @returns JSのデータ構造と、使いきれなかったtoken
  */
 export const throwableDecode = (cborString: string): EatCborResutType => {
-  console.log("[ObjectDecoder]<decode> cborString", cborString);
-
   let stri = trimFirstHexFromCBOR(cborString);
   while (!isValidCborString(stri)) {
     const nextToken = trimFirstHexFromCBOR(cborString.slice(stri.length));
@@ -424,8 +419,6 @@ export const throwableDecode = (cborString: string): EatCborResutType => {
   }
 
   const rest = cborString.slice(stri.length);
-  console.log("[ObjectDecoder]<decode> stri", stri);
-  console.log("[ObjectDecoder]<decode> rest", rest);
   return {
     decodeResult: Decoder.decode(stri),
     restCborString: rest === "" ? null : rest,

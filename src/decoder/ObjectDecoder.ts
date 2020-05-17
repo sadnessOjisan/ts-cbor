@@ -23,7 +23,6 @@ export class ObjectDecoder {
         // additinal infoに長さが入っており、次のbyte以降にデータ
         let eating = null;
         for (let cnt = 0; cnt < definedToken.additionalInformation; cnt++) {
-          console.log("[ObjectDecoder]<decode> eating", eating);
           const firstResult = throwableDecode(eating || definedToken.variable);
           const key = firstResult.decodeResult;
           if (!firstResult.restCborString) {
@@ -33,15 +32,29 @@ export class ObjectDecoder {
           const value = secondResult.decodeResult;
           eating = secondResult.restCborString;
           result = { ...result, [key]: value };
-          console.log("[ObjectDecoder]<decode> secondResult", secondResult);
         }
         if (Object.keys(result).length !== definedToken.additionalInformation) {
           throw new Error("key数とadditional infoの数があってない");
         }
         return result;
       case "long":
-        // 次のbyteに長さが入っている、その次のbyte以降にデータ
-        // TODO: impl
+        // payloadLengthに長さが入っている、それをvariableでまわす
+        let eating2 = null;
+        for (let cnt = 0; cnt < definedToken.payloadLength; cnt++) {
+          const firstResult = throwableDecode(eating2 || definedToken.variable);
+          const key = firstResult.decodeResult;
+          if (!firstResult.restCborString) {
+            throw new Error("オブジェクトなので絶対に後続があるはず");
+          }
+          const secondResult = throwableDecode(firstResult.restCborString);
+          const value = secondResult.decodeResult;
+          eating2 = secondResult.restCborString;
+          result = { ...result, [key]: value };
+          console.log("[ObjectDecoder]<decode> result", result);
+        }
+        if (Object.keys(result).length !== definedToken.additionalInformation) {
+          throw new Error("key数とadditional infoの数があってない");
+        }
         return result;
     }
     throw new Error("unreach");
