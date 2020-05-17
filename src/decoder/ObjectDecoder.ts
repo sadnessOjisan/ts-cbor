@@ -27,16 +27,10 @@ export class ObjectDecoder {
           if (!firstResult.restCborString) {
             throw new Error("オブジェクトなので絶対に後続があるはず");
           }
-          console.log("[ObjectDecoder]<decode> firstResult", firstResult);
           const secondResult = throwableDecode(firstResult.restCborString);
           const value = secondResult.decodeResult;
           eating = secondResult.restCborString;
           result = { ...result, [key]: value };
-          console.log("[ObjectDecoder]<decode> eating", eating);
-          console.log("[ObjectDecoder]<decode> secondResult", secondResult);
-
-          console.log("[ObjectDecoder]<decode> definedToken", definedToken);
-          console.log("[ObjectDecoder]<decode> result", result);
         }
         if (Object.keys(result).length !== definedToken.additionalInformation) {
           throw new Error("key数とadditional infoの数があってない");

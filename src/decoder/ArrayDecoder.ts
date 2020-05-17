@@ -35,10 +35,8 @@ export class ArrayDecoder {
         let eating = null;
         for (;;) {
           const eatResult = throwableDecode(eating || definedToken.variable);
-          console.log("[Array]<decode> eating", eating);
           eating = eatResult.restCborString;
           result.push(eatResult.decodeResult);
-          console.log("[Array]<decode> eatResult", eatResult);
           if (!eatResult.restCborString) {
             // これ以上tokenがないなら抜ける
             break;
@@ -46,12 +44,9 @@ export class ArrayDecoder {
         }
 
         if (result.length !== definedToken.additionalInformation) {
-          console.error("<ArrayDecoder> ERR! result", result);
-          console.error("<ArrayDecoder> ERR! cbor", cbor);
           throw new Error("additional informationと配列の数があってない");
         }
 
-        console.error("<ArrayDecoder> ERR! cbor", cbor);
         return result;
       }
 

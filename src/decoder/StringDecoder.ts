@@ -28,11 +28,8 @@ export class StringDecoder {
           "x"
         ).length;
         if (decodedByteLength !== definedToken.additionalInformation) {
-          // console.error("[StringDecoder]<decode> cbor", cbor);
           throw new Error("長さあってない");
         }
-        // console.error("[StringDecoder]<decode> decoded", decoded);
-
         return decoded;
       }
       case "long": {
