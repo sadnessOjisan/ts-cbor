@@ -67,8 +67,8 @@
 				<a href="#ts-cbor" id="ts-cbor" style="color: inherit; text-decoration: none;">
 					<h1>ts-cbor</h1>
 				</a>
-				<p>a modern typed-cbor.</p>
-				<p>Just for may training of RFC Reading, dont use it in your production.</p>
+				<p>a modern TypeScript based cbor decoder and parser.</p>
+				<p>Just for my training, dont use it in your app.</p>
 				<ul>
 					<li><a href="https://tools.ietf.org/html/rfc7049">https://tools.ietf.org/html/rfc7049</a></li>
 					<li><a href="https://en.wikipedia.org/wiki/CBOR">https://en.wikipedia.org/wiki/CBOR</a></li>
@@ -99,21 +99,34 @@ open coverage<span class="hljs-regexp">/lcov-report/i</span>ndex.html</code></pr
 				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
 					<h2>todo</h2>
 				</a>
+				<a href="#problem" id="problem" style="color: inherit; text-decoration: none;">
+					<h3>problem</h3>
+				</a>
 				<ul>
-					<li><input checked="" disabled="" type="checkbox"> encoder<ul>
+					<li>performance is too bad..., many recursive. should use Stream. (mainly decoder)</li>
+				</ul>
+				<a href="#progress" id="progress" style="color: inherit; text-decoration: none;">
+					<h3>progress</h3>
+				</a>
+				<ul>
+					<li><input disabled="" type="checkbox"> encoder<ul>
 							<li><input checked="" disabled="" type="checkbox"> number</li>
 							<li><input checked="" disabled="" type="checkbox"> string</li>
 							<li><input checked="" disabled="" type="checkbox"> primitive</li>
 							<li><input checked="" disabled="" type="checkbox"> object</li>
 							<li><input checked="" disabled="" type="checkbox"> array</li>
+							<li><input disabled="" type="checkbox"> tag</li>
+							<li><input disabled="" type="checkbox"> buffer</li>
 						</ul>
 					</li>
 					<li><input disabled="" type="checkbox"> decoder<ul>
 							<li><input checked="" disabled="" type="checkbox"> number</li>
 							<li><input checked="" disabled="" type="checkbox"> string</li>
-							<li><input disabled="" type="checkbox"> primitive</li>
-							<li><input disabled="" type="checkbox"> object</li>
-							<li><input disabled="" type="checkbox"> array</li>
+							<li><input checked="" disabled="" type="checkbox"> primitive</li>
+							<li><input checked="" disabled="" type="checkbox"> object</li>
+							<li><input checked="" disabled="" type="checkbox"> array</li>
+							<li><input disabled="" type="checkbox"> tag</li>
+							<li><input disabled="" type="checkbox"> buffer</li>
 						</ul>
 					</li>
 				</ul>
